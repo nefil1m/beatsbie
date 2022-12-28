@@ -9,7 +9,7 @@ export type Hit = {
 
 export type State = Collection<Hit>;
 
-export const hitsSlice = createSlice<State, any>({
+export const hitsSlice = createSlice({
   name: 'hits',
   initialState: {
     'hit-1': {
@@ -142,13 +142,37 @@ export const hitsSlice = createSlice<State, any>({
       hit: false,
       hitType: HitType.NORMAL
     },
+    'hit-27': {
+      id: 'hit-27',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-28': {
+      id: 'hit-28',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-29': {
+      id: 'hit-29',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-30': {
+      id: 'hit-30',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
   },
   reducers: {
-    addNote() {
-      // todo
+    toggleHit(state, { payload }) {
+      state[payload].hit = !state[payload].hit;
     }
   }
 });
+
+export const { toggleHit } = hitsSlice.actions;
+
+export const selectHit = (hitId) => (state) => state.hits[hitId];
 
 export const selectHits = (hitIds) => (state) => {
   const allHits =  state.hits;

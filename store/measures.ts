@@ -9,7 +9,7 @@ export type Measure = {
 
 export type State = Collection<Measure>;
 
-export const measuresSlice = createSlice<State, any>({
+export const measuresSlice = createSlice({
   name: 'measures',
   initialState: {
     'measure-1': {

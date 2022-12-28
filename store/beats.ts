@@ -13,7 +13,7 @@ export type Beat = {
 
 export type State = Collection<Beat>;
 
-export const beatsSlice = createSlice<State, any>({
+export const beatsSlice = createSlice({
   name: 'beats',
   initialState: {
     'beat-1': {
@@ -49,8 +49,14 @@ export const beatsSlice = createSlice<State, any>({
           'hit-12',
           'hit-13',
           'hit-14',
+        ],
+        [Drum.FLOOR1]: [
+          'hit-30',
+          'hit-29',
+          'hit-28',
+          'hit-27'
         ]
-      }
+      },
     },
     'beat-3': {
       id: 'beat-3',
@@ -93,7 +99,7 @@ export const beatsSlice = createSlice<State, any>({
     addNote() {
       // todo
     }
-  }
+  },
 });
 
 export const selectBeat = (beatId) => (state) => state.beats[beatId];

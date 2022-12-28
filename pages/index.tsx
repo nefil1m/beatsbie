@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css';
 import { Measure } from '../components/DrumTrack/Measure/Measure';
 import { useSelector } from 'react-redux';
 import { selectMeasurePointers } from '../store/measures';
+import { Player } from '../components/Player/Player';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,6 +19,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico"/>
       </Head>
       <main className={styles.main}>
+        <Player />
         {measures.map((measureId) => <Measure id={measureId} key={measureId}/>)}
       </main>
     </>

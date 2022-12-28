@@ -22,6 +22,12 @@ enum HitType {
   OPEN = 'OPEN',
 }
 
+type DrumKit = {
+  [key in Drum]?: {
+    [key in HitType]?: string;
+  };
+}
+
 type ID = string;
 
 type Pointer = ID;
@@ -32,5 +38,5 @@ type BeatDivision = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
 type Collection<T> = Record<ID, T>;
 
-export type { Metre, BeatDivision, ID, Pointer, Collection };
+export type { Metre, BeatDivision, ID, Pointer, Collection, DrumKit };
 export { Drum, HitType };
