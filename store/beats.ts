@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { BeatDivision, Collection, Drum, ID, Pointer } from '../lib/types';
+import { BeatDivision, Collection, Drum, Pointer } from '../lib/types';
 
 export type Note = {
   [key in Drum]?: Pointer[];
@@ -65,11 +65,11 @@ export const beatsSlice = createSlice({
         [Drum.HI_HAT]: [
           'hit-15'
         ],
-        [Drum.FLOOR1]: [
-          'hit-16'
-        ],
         [Drum.SNARE]: [
           'hit-17'
+        ],
+        [Drum.FLOOR1]: [
+          'hit-16'
         ]
       }
     },

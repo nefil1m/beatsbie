@@ -19,4 +19,21 @@ const store = configureStore({
   },
 });
 
-export { store };
+const selectAll = (state: RootState) => {
+  const allMeasures = Object.values(state.measures);
+  const beatsMap = state.beats;
+  const hitsMap = state.hits;
+
+  return allMeasures.map(measure => ({
+    ...measure,
+    beats: measure.beats.map((beatId) => ({
+      ...beatsMap[beatId],
+      notes: Object.entries(beatsMap[beatId].notes).reduce((all, [drum, notes]) => ({
+        ...all,
+        [drum]: notes.map((hitId) => hitsMap[hitId]),
+      }), {})
+    }))
+  }))
+};
+
+export { store, selectAll };

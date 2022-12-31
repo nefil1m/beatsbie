@@ -1,15 +1,17 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const generalSlice = createSlice({
   name: 'general',
   initialState: {
-    tempo: 120,
+    tempo: 30,
   },
   reducers: {
-    setTempo: (state, {payload}) => {
+    setTempo: (state, { payload }) => {
       state.tempo = payload;
     }
   }
-})
+});
 
-export {generalSlice};
+export { generalSlice };
+
+export const selectTempo = (state) => state.general.tempo;
