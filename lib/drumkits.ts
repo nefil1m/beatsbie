@@ -10,8 +10,8 @@ const MetalDrumKit: DrumKit = {
   [Drum.CRASH1]: {
     [HitType.NORMAL]: './audio/drumkits/metal/crash.wav'
   },
-  [Drum.FLOOR1]: {
-    [HitType.NORMAL]: './audio/drumkits/metal/floor.wav'
+  [Drum.KICK1]: {
+    [HitType.NORMAL]: './audio/drumkits/metal/kick.wav'
   },
   [Drum.TOM1]: {
     [HitType.NORMAL]: './audio/drumkits/metal/tom.wav'

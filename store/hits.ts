@@ -19,7 +19,7 @@ export const hitsSlice = createSlice({
     },
     'hit-2': {
       id: 'hit-2',
-      hit: true,
+      hit: false,
       hitType: HitType.NORMAL
     },
     'hit-3': {
@@ -69,17 +69,17 @@ export const hitsSlice = createSlice({
     },
     'hit-12': {
       id: 'hit-12',
-      hit: true,
+      hit: false,
       hitType: HitType.NORMAL
     },
     'hit-13': {
       id: 'hit-13',
-      hit: true,
+      hit: false,
       hitType: HitType.GHOST
     },
     'hit-14': {
       id: 'hit-14',
-      hit: true,
+      hit: false,
       hitType: HitType.GHOST
     },
     'hit-15': {
@@ -94,7 +94,7 @@ export const hitsSlice = createSlice({
     },
     'hit-17': {
       id: 'hit-17',
-      hit: true,
+      hit: false,
       hitType: HitType.ACCENT
     },
     'hit-18': {
@@ -104,7 +104,7 @@ export const hitsSlice = createSlice({
     },
     'hit-19': {
       id: 'hit-19',
-      hit: true,
+      hit: false,
       hitType: HitType.NORMAL,
     },
     'hit-20': {
@@ -119,17 +119,17 @@ export const hitsSlice = createSlice({
     },
     'hit-22': {
       id: 'hit-22',
-      hit: true,
+      hit: false,
       hitType: HitType.ACCENT
     },
     'hit-23': {
       id: 'hit-23',
-      hit: true,
+      hit: false,
       hitType: HitType.ACCENT
     },
     'hit-24': {
       id: 'hit-24',
-      hit: true,
+      hit: false,
       hitType: HitType.NORMAL
     },
     'hit-25': {
@@ -159,6 +159,96 @@ export const hitsSlice = createSlice({
     },
     'hit-30': {
       id: 'hit-30',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-31': {
+      id: 'hit-31',
+      hit: true,
+      hitType: HitType.NORMAL
+    },
+    'hit-32': {
+      id: 'hit-32',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-33': {
+      id: 'hit-33',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-34': {
+      id: 'hit-34',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-35': {
+      id: 'hit-35',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-36': {
+      id: 'hit-36',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-37': {
+      id: 'hit-37',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-38': {
+      id: 'hit-38',
+      hit: true,
+      hitType: HitType.NORMAL
+    },
+    'hit-39': {
+      id: 'hit-39',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-40': {
+      id: 'hit-40',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-41': {
+      id: 'hit-41',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-42': {
+      id: 'hit-42',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-43': {
+      id: 'hit-43',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-44': {
+      id: 'hit-44',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-45': {
+      id: 'hit-45',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-46': {
+      id: 'hit-46',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-47': {
+      id: 'hit-47',
+      hit: false,
+      hitType: HitType.NORMAL
+    },
+    'hit-48': {
+      id: 'hit-48',
       hit: false,
       hitType: HitType.NORMAL
     },

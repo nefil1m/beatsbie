@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { MetalDrumKit } from '../../lib/drumkits';
 import { HitType } from '../../lib/types';
 import { useSelector } from 'react-redux';
@@ -26,14 +26,18 @@ const trackToQueue = (drumkit, measures) => {
   const out = [];
 
   measures.forEach(({ beats, metre: [, baseValue] }) => {
+    const m = [];
+
     beats.forEach(({ division, notes }) => {
       times(division, (_, index) => {
-        out.push({
-          value: baseValue * division,
+        m.push({
+          value: division,
           toPlay: getHitsByNote(drumkit, notes, index),
         });
       });
     });
+
+    out.push(m);
   });
 
   return out;
@@ -41,33 +45,49 @@ const trackToQueue = (drumkit, measures) => {
 
 const A_MINUTE = 1000 * 60;
 
-const playNote = async (note, wholeNoteLength) => {
+const playNote = async (note, beatLength) => {
   return new Promise((resolve) => {
     note.toPlay.forEach((hit) => {
       hit.play();
     });
 
-    setTimeout(resolve, wholeNoteLength / note.value);
+    setTimeout(resolve, beatLength / note.value);
   });
 };
 
-const playMeasure = async (measure, wholeNoteLength) => {
+const playMeasure = async (measure, beatLength) => {
   for (const hit of measure) {
-    await playNote(hit, wholeNoteLength);
+    await playNote(hit, beatLength);
   }
 };
 
-const playQueue = async (queue, tempo) => {
-  const wholeNoteLength = A_MINUTE / tempo;
-  await playMeasure(queue, wholeNoteLength);
+const playQueue = async (queue, tempo, cb) => {
+  const beatLength = A_MINUTE / tempo;
+
+  for (const measure of queue) {
+    await playMeasure(measure, beatLength);
+  }
+
+  return cb();
 };
 
 const Player = () => {
   const measures = useSelector(selectAll);
   const tempo = useSelector(selectTempo);
+  const playingRef = useRef(false);
 
   const play = () => {
-    playQueue(trackToQueue(MetalDrumKit, measures), tempo);
+    const playLikeACrazy = async () => {
+      if (playingRef.current) {
+        await playQueue(trackToQueue(MetalDrumKit, measures), tempo, playLikeACrazy);
+      }
+    };
+
+    playingRef.current = !playingRef.current;
+
+    if (playingRef.current) {
+      playLikeACrazy();
+    }
   };
 
   return (

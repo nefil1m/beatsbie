@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const generalSlice = createSlice({
   name: 'general',
   initialState: {
-    tempo: 30,
+    tempo: 120,
   },
   reducers: {
     setTempo: (state, { payload }) => {
