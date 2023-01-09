@@ -1,8 +1,11 @@
 .measure {
-  border: 1px solid lime;
   padding: 20px;
   border-radius: 10px;
   background: white;
   display: flex;
   gap: 20px;
+}
+
+.measureActive {
+  border: 3px solid lime;
 }

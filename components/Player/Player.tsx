@@ -1,16 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { MetalDrumKit } from '../../lib/drumkits';
-import { HitType } from '../../lib/types';
-import { useSelector } from 'react-redux';
+import { DrumKit, HitType } from '../../lib/types';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAll } from '../../store';
-import { times } from '../../lib/utils';
-import { selectTempo } from '../../store/general';
+import { selectTempo, setMeasureIndex, setNoteId } from '../../store/general';
+import { player } from '../../lib/player';
+import { Hit } from '../../store/hits';
 
-const getHitsByNote = (drumkit, notes, count) => {
+const getHitsByNote = (drumkit: DrumKit, drums: Hit[]) => {
   const out = [];
-  Object.entries(notes).forEach(([drum, hits]) => {
-    const hit = hits[count];
 
+  Object.entries(drums).forEach(([drum, hit]) => {
     if (hit.hit) {
       const drumDef = drumkit[drum];
       const hitSound = drumDef[hit.hitType] || drumDef[HitType.NORMAL];
@@ -22,19 +22,20 @@ const getHitsByNote = (drumkit, notes, count) => {
   return out;
 };
 
-const trackToQueue = (drumkit, measures) => {
+const trackToQueue = (drumkit: DrumKit, measures) => {
   const out = [];
 
-  measures.forEach(({ beats, metre: [, baseValue] }) => {
+  measures.forEach(({ beats }) => {
     const m = [];
 
     beats.forEach(({ division, notes }) => {
-      times(division, (_, index) => {
+      notes.forEach((note) => {
         m.push({
+          id: note.id,
           value: division,
-          toPlay: getHitsByNote(drumkit, notes, index),
-        });
-      });
+          toPlay: getHitsByNote(drumkit, note.drums),
+        })
+      })
     });
 
     out.push(m);
@@ -43,55 +44,29 @@ const trackToQueue = (drumkit, measures) => {
   return out;
 };
 
-const A_MINUTE = 1000 * 60;
-
-const playNote = async (note, beatLength) => {
-  return new Promise((resolve) => {
-    note.toPlay.forEach((hit) => {
-      hit.play();
-    });
-
-    setTimeout(resolve, beatLength / note.value);
-  });
-};
-
-const playMeasure = async (measure, beatLength) => {
-  for (const hit of measure) {
-    await playNote(hit, beatLength);
-  }
-};
-
-const playQueue = async (queue, tempo, cb) => {
-  const beatLength = A_MINUTE / tempo;
-
-  for (const measure of queue) {
-    await playMeasure(measure, beatLength);
-  }
-
-  return cb();
-};
 
 const Player = () => {
-  const measures = useSelector(selectAll);
-  const tempo = useSelector(selectTempo);
-  const playingRef = useRef(false);
+  const allState = useSelector(selectAll);
+  const tempo = useSelector(selectTempo)
+  const dispatch = useDispatch();
 
-  const play = () => {
-    const playLikeACrazy = async () => {
-      if (playingRef.current) {
-        await playQueue(trackToQueue(MetalDrumKit, measures), tempo, playLikeACrazy);
-      }
-    };
+  useEffect(() => {
+    player.setIndexSetters(
+      (index) => dispatch(setMeasureIndex(index)),
+      (id) => dispatch(setNoteId(id))
+    )
+  }, [dispatch])
 
-    playingRef.current = !playingRef.current;
+  useEffect(() => {
+    player.tempo = tempo;
+  }, [tempo]);
 
-    if (playingRef.current) {
-      playLikeACrazy();
-    }
-  };
+  useEffect(() => {
+    player.queue = trackToQueue(MetalDrumKit, allState);
+  }, [allState]);
 
   return (
-    <button onClick={play}>play</button>
+    <button onClick={player.togglePlaying}>play</button>
   );
 };
 

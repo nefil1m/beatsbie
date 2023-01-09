@@ -21,12 +21,29 @@ export const measuresSlice = createSlice({
         'beat-3',
         'beat-4',
       ]
-    }
+    },
+    // 'measure-2': {
+    //   id: 'measure-2',
+    //   metre: [4, 4],
+    //   beats: [
+    //     'beat-1',
+    //     'beat-2',
+    //     'beat-3',
+    //     'beat-4',
+    //   ]
+    // },
+    // 'measure-3': {
+    //   id: 'measure-3',
+    //   metre: [4, 4],
+    //   beats: [
+    //     'beat-1',
+    //     'beat-2',
+    //     'beat-3',
+    //     'beat-4',
+    //   ]
+    // }
   },
   reducers: {
-    setFoo: (state, { payload }) => {
-      console.log('foo');
-    }
   }
 });
 

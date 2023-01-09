@@ -1,6 +1,9 @@
 .note {
-  border: 1px solid saddlebrown;
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.noteActive {
+  border: 1px solid red;
 }

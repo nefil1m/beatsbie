@@ -1,22 +1,24 @@
 import React from 'react';
 import { Hit } from '../Hit/Hit';
 import { useSelector } from 'react-redux';
-import { selectHits } from '../../../store/hits';
-import { Note } from '../../../store/beats';
 import styles from './Note.module.scss';
+import classNames from 'classnames';
+import { Note, selectNote } from '../../../store/notes';
+import { ID } from '../../../lib/types';
+import { selectActiveNoteId } from '../../../store/general';
 
 type Props = {
-  note: Note;
+  id: ID;
 }
 
-const Note = ({ note }: Props) => {
-  const requiredHits = Object.values(note);
-  const hits = useSelector(selectHits(requiredHits));
+const Note = ({ id }: Props) => {
+  const note: Note = useSelector(selectNote(id));
+  const activeNoteId = useSelector(selectActiveNoteId);
 
   return (
-    <div className={styles.note}>
-      {hits.map((hit) => (
-        <Hit id={hit.id} key={hit.id} />
+    <div className={classNames(styles.note, { [styles.noteActive]: activeNoteId === id})}>
+      {Object.values(note.drums).map((hitId) => (
+        <Hit id={hitId} key={hitId} />
       ))}
     </div>
   );
