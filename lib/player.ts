@@ -1,13 +1,15 @@
+import { noop } from 'lodash';
+
 const A_MINUTE = 1000 * 60;
 
-class Foo {
+class Player {
   playing = false;
-  _noteId = 0;
-  _measureIndex = 0;
   _queue = [];
   _tempo = 0;
-  noteIdSetter = id => id;
-  measureIndexSetter = number => number;
+
+  onNoteIdChange = noop;
+  onMeasureIndexChange = noop;
+  onStop = noop;
 
   constructor() {
     this.start = this.start.bind(this);
@@ -27,18 +29,17 @@ class Foo {
   }
 
   set activeNoteId(id) {
-    this._noteId = id;
-    this.noteIdSetter(id);
+    this.onNoteIdChange(id);
   }
 
-  set measureIndex(index) {
-    this._measureIndex = index;
-    this.measureIndexSetter(index);
+  set activeMeasureIndex(index) {
+    this.onMeasureIndexChange(index);
   }
 
-  setIndexSetters(measureIndexSetter, noteIdSetter) {
-    this.measureIndexSetter = measureIndexSetter;
-    this.noteIdSetter = noteIdSetter;
+  init({ onMeasureIndexChange, onNoteIdChange, onStop }) {
+    this.onMeasureIndexChange = onMeasureIndexChange;
+    this.onNoteIdChange = onNoteIdChange;
+    this.onStop = onStop;
   }
 
   async playNote(note, beatLength) {
@@ -67,7 +68,7 @@ class Foo {
       const beatLength = A_MINUTE / this._tempo;
 
       for (const [index, measure] of Object.entries(this._queue)) {
-        this.measureIndex = +index % this._queue.length;
+        this.activeMeasureIndex = +index % this._queue.length;
         await this.playMeasure(measure, beatLength);
       }
 
@@ -82,6 +83,7 @@ class Foo {
 
   stop() {
     this.playing = false;
+    this.onStop();
   }
 
   togglePlaying() {
@@ -93,4 +95,4 @@ class Foo {
   }
 }
 
-export const player = new Foo();
+export const player = new Player();

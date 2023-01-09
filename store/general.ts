@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PlayState } from '../lib/types';
-import { times } from '../lib/utils';
 
 type State = {
   tempo: number;

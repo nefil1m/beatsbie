@@ -51,10 +51,14 @@ const Player = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    player.setIndexSetters(
-      (index) => dispatch(setMeasureIndex(index)),
-      (id) => dispatch(setNoteId(id))
-    )
+    player.init({
+      onMeasureIndexChange: (index) => dispatch(setMeasureIndex(index)),
+      onNoteIdChange: (id) => dispatch(setNoteId(id)),
+      onStop: () => {
+        dispatch(setMeasureIndex(0));
+        dispatch(setNoteId(null));
+      },
+  })
   }, [dispatch])
 
   useEffect(() => {

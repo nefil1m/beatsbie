@@ -5,7 +5,6 @@ import { Beat } from '../Beat/Beat';
 import { selectMeasure } from '../../../store/measures';
 import styles from './Measure.module.scss';
 import classNames from 'classnames';
-import { selectActiveNoteIndex } from '../../../store/general';
 
 type Props = {
   id: ID;
