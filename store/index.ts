@@ -5,6 +5,7 @@ import { hitsSlice, State as HitState } from './hits';
 import { beatsSlice, State as BeatState } from './beats';
 import { Note, notesSlice, State as NotesState } from './notes';
 import { memoize } from 'lodash';
+import { ID } from '../lib/types';
 
 export type RootState = {
   measures: MeasureState;
@@ -14,7 +15,7 @@ export type RootState = {
   notes: NotesState;
 };
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
     general: generalSlice.reducer,
     measures: measuresSlice.reducer,
@@ -35,23 +36,28 @@ const fillHits = (hitsMap: HitState, note: Note) => ({
   ),
 });
 
-const selectAll = memoize((state: RootState) => {
-  const allMeasures = Object.values(state.measures);
-  const beatsMap = state.beats;
-  const hitsMap = state.hits;
-  const notesMap = state.notes;
+export const retrieveMeasure =
+  (measureId: ID) => (state: Pick<RootState, 'measures' | 'beats' | 'notes' | 'hits'>) => {
+    const measure = state.measures[measureId];
 
-  return allMeasures.map((measure) => ({
-    ...measure,
-    beats: measure.beats.map((beatId) => {
-      const beat = beatsMap[beatId];
+    return {
+      ...measure,
+      beats: measure.beats.map((beatId: ID) => {
+        const beat = state.beats[beatId];
 
-      return {
-        ...beat,
-        notes: beat.notes.map((noteId) => fillHits(hitsMap, notesMap[noteId])),
-      };
-    }),
-  }));
+        return {
+          ...beat,
+          notes: beat.notes.map((noteId: ID) => fillHits(state.hits, state.notes[noteId])),
+        };
+      }),
+    };
+  };
+
+export const _retrieveTrackMemoized = memoize((measures, beats, notes, hits) => {
+  return Object.keys(measures).map((measureId) =>
+    retrieveMeasure(measureId)({ measures, beats, notes, hits })
+  );
 });
 
-export { store, selectAll };
+export const retrieveTrack = (state) =>
+  _retrieveTrackMemoized(state.measures, state.beats, state.notes, state.hits);

@@ -142,7 +142,15 @@ export const notesSlice = createSlice({
       },
     },
   },
-  reducers: {},
+  reducers: {
+    addNotes(state, { payload }) {
+      payload.forEach((note) => {
+        state[note.id] = note;
+      });
+    },
+  },
 });
+
+export const { addNotes } = notesSlice.actions;
 
 export const selectNote = (noteId) => (state) => state.notes[noteId];

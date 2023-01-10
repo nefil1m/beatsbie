@@ -34,10 +34,14 @@ export const beatsSlice = createSlice({
     },
   },
   reducers: {
-    addBeat() {
-      // todo
+    addBeats(state, { payload }) {
+      payload.forEach((beat) => {
+        state[beat.id] = beat;
+      });
     },
   },
 });
+
+export const { addBeats } = beatsSlice.actions;
 
 export const selectBeat = (beatId) => (state) => state.beats[beatId];

@@ -17,29 +17,15 @@ export const measuresSlice = createSlice({
       metre: [4, 4],
       beats: ['beat-1', 'beat-2', 'beat-3', 'beat-4'],
     },
-    // 'measure-2': {
-    //   id: 'measure-2',
-    //   metre: [4, 4],
-    //   beats: [
-    //     'beat-1',
-    //     'beat-2',
-    //     'beat-3',
-    //     'beat-4',
-    //   ]
-    // },
-    // 'measure-3': {
-    //   id: 'measure-3',
-    //   metre: [4, 4],
-    //   beats: [
-    //     'beat-1',
-    //     'beat-2',
-    //     'beat-3',
-    //     'beat-4',
-    //   ]
-    // }
   },
-  reducers: {},
+  reducers: {
+    addMeasure(state, { payload }) {
+      state[payload.id] = payload;
+    },
+  },
 });
+
+export const { addMeasure } = measuresSlice.actions;
 
 export const selectMeasurePointers = (state) => Object.keys(state.measures);
 export const selectMeasure = (measureId) => (state) => state.measures[measureId];

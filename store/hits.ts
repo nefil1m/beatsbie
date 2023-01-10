@@ -257,10 +257,15 @@ export const hitsSlice = createSlice({
     toggleHit(state, { payload }) {
       state[payload].hit = !state[payload].hit;
     },
+    addHits(state, { payload }) {
+      payload.forEach((hit) => {
+        state[hit.id] = hit;
+      });
+    },
   },
 });
 
-export const { toggleHit } = hitsSlice.actions;
+export const { toggleHit, addHits } = hitsSlice.actions;
 
 export const selectHit = (hitId) => (state) => state.hits[hitId];
 

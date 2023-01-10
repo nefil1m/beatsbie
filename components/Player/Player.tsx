@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MetalDrumKit } from '../../lib/drumkits';
 import { DrumKit, HitType } from '../../lib/types';
-import { selectAll } from '../../store';
+import { retrieveTrack } from '../../store';
 import { selectTempo, setMeasureIndex, setNoteId } from '../../store/general';
 import { player } from '../../lib/player';
 import { Hit } from '../../store/hits';
@@ -48,7 +48,7 @@ const trackToQueue = (drumkit: DrumKit, measures) => {
 };
 
 export const Player = () => {
-  const allState = useSelector(selectAll);
+  const allState = useSelector(retrieveTrack);
   const tempo = useSelector(selectTempo);
   const dispatch = useDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
