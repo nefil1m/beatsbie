@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ID } from '../lib/types';
 
-type State = {
+export type State = {
   tempo: number;
   measureIndex: number;
   noteId: ID;
 };
 
-const generalSlice = createSlice({
+export const generalSlice = createSlice({
   name: 'general',
   initialState: {
     tempo: 120,
@@ -27,13 +27,8 @@ const generalSlice = createSlice({
   },
 });
 
-const { setNoteId, setMeasureIndex } = generalSlice.actions;
-
-export { generalSlice, setNoteId, setMeasureIndex };
-
-export type { State };
+export const { setNoteId, setMeasureIndex, setTempo } = generalSlice.actions;
 
 export const selectTempo = (state) => state.general.tempo;
-export const selectPlayState = (state) => state.general.playState;
 export const selectActiveMeasureIndex = (state) => state.general.measureIndex;
 export const selectActiveNoteId = (state) => state.general.noteId;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MetalDrumKit } from '../../lib/drumkits';
 import { DrumKit, HitType } from '../../lib/types';
 import { retrieveTrack } from '../../store';
-import { selectTempo, setMeasureIndex, setNoteId } from '../../store/general';
+import { selectTempo, setMeasureIndex, setNoteId, setTempo } from '../../store/general';
 import { player } from '../../lib/player';
 import { Hit } from '../../store/hits';
 import styles from './Player.module.scss';
@@ -72,9 +72,13 @@ export const Player = () => {
     player.queue = trackToQueue(MetalDrumKit, allState);
   }, [allState]);
 
+  const onTempoChange = ({ target: { value } }) => {
+    dispatch(setTempo(Number(value)));
+  };
+
   return (
     <div className={styles.player}>
-      <span />
+      <input onChange={onTempoChange} value={tempo} />
       <Button
         onClick={() => {
           player.togglePlaying();
