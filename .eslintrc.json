@@ -3,10 +3,9 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "airbnb/hooks",
-    "next/core-web-vitals",
-    "eslint-plugin-prettier"
+    "next/core-web-vitals"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "eslint-plugin-prettier"],
   "root": true
 }
