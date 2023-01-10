@@ -20,7 +20,7 @@ export const Measure = ({ id, active = false }: Props) => {
   const dispatch = useDispatch();
   const { beats } = useSelector(selectMeasure(id));
   const measure = useSelector((state: RootState) =>
-    retrieveMeasure(id, state.hits, state.notes, state.beats, state.measures)
+    retrieveMeasure(state.hits, state.notes, state.beats, state.measures, id)
   );
   const ref = useRef();
 

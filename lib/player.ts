@@ -3,7 +3,7 @@ import { noop } from 'lodash';
 const A_MINUTE = 1000 * 60;
 
 class Player {
-  playing = false;
+  _playing = false;
   _queue = [];
   _tempo = 0;
 
@@ -20,12 +20,24 @@ class Player {
     this.togglePlaying = this.togglePlaying.bind(this);
   }
 
+  get playing() {
+    return this._playing && !!this.queue.length;
+  }
+
+  set playing(playing) {
+    this._playing = playing;
+  }
+
   set tempo(tempo) {
     this._tempo = tempo;
   }
 
   set queue(queue) {
     this._queue = queue;
+  }
+
+  get queue() {
+    return this._queue;
   }
 
   set activeNoteId(id) {

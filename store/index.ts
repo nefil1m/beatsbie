@@ -36,7 +36,7 @@ const fillHits = (hitsMap: HitState, note: Note) => ({
   ),
 });
 
-export const retrieveMeasure = memoize((measureId, hits, notes, beats, measures) => {
+export const retrieveMeasure = memoize((hits, notes, beats, measures, measureId) => {
   const measure = measures[measureId];
 
   return {
@@ -52,12 +52,8 @@ export const retrieveMeasure = memoize((measureId, hits, notes, beats, measures)
   };
 });
 
-export const _retrieveTrackMemoized = (hits, notes, beats, measures) => {
-  return Object.keys(measures).map((measureId) =>
-    retrieveMeasure(measureId, hits, notes, beats, measures)
-  );
-};
-
 export const retrieveTrack = (state) => {
-  return _retrieveTrackMemoized(state.hits, state.notes, state.beats, state.measures);
+  return Object.keys(state.measures).map((measureId) =>
+    retrieveMeasure(state.hits, state.notes, state.beats, state.measures, measureId)
+  );
 };
