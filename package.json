@@ -10,7 +10,8 @@
     "prettier:check": "npm run prettier:check:file ./**/*.*",
     "prettier:check:file": "prettier --check --",
     "prettier:format": "npm run prettier:format:file ./**/*.*",
-    "prettier:format:file": "prettier --write --"
+    "prettier:format:file": "prettier --write --",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@next/font": "13.1.1",
@@ -33,7 +34,13 @@
     "eslint": "^8.30.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "13.1.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
     "prettier": "2.8.2",
     "typescript": "^4.9.4"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
