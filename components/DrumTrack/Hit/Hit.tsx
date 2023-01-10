@@ -7,7 +7,7 @@ import { selectHit, toggleHit } from '../../../store/hits';
 
 type Props = {
   id: ID;
-}
+};
 
 export const Hit = ({ id }: Props) => {
   const dispatch = useDispatch();
@@ -22,4 +22,3 @@ export const Hit = ({ id }: Props) => {
     />
   );
 };
-

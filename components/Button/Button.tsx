@@ -19,13 +19,13 @@ export enum ButtonSize {
   XL = 'XL',
 }
 
-type Props = Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'className'>
-  & PropsWithChildren<{
-  onClick?: MouseEventHandler;
-  shape?: ButtonShape;
-  btnStyle?: ButtonStyle;
-  size?: ButtonSize;
-}>
+type Props = Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'className'> &
+  PropsWithChildren<{
+    onClick?: MouseEventHandler;
+    shape?: ButtonShape;
+    btnStyle?: ButtonStyle;
+    size?: ButtonSize;
+  }>;
 
 export const Button = ({
   type = 'button',

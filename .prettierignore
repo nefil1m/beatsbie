@@ -1,0 +1,7 @@
+node_modules
+public
+.idea
+.next
+.editorconfig
+.gitignore
+.prettierignore

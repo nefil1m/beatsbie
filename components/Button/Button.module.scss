@@ -13,22 +13,22 @@
   align-items: center;
   cursor: pointer;
   box-shadow: inset 3px 3px 6px -3px transparent;
-  transition: box-shadow .125s ease-out;
+  transition: box-shadow 0.125s ease-out;
 
   &[disabled] {
     cursor: not-allowed;
   }
 
   &:hover {
-    box-shadow: inset 7px 7px 6px -3px rgb(100 100 100 / 80%);
+    box-shadow: inset 3px 3px 0px 0px rgb(0 0 0 / 20%);
   }
 
   &:active {
-    box-shadow: inset 10px 10px 6px -5px rgb(60 60 60 / 80%);
+    box-shadow: inset 5px 5px 0px 0px rgb(0 0 0 / 30%);
   }
 
   > svg {
-    --size: calc(var(--height) * 0.60);
+    --size: calc(var(--height) * 0.6);
 
     fill: var(--font-color);
     display: block;

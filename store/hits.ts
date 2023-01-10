@@ -2,10 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Collection, HitType, ID } from '../lib/types';
 
 export type Hit = {
-  id: ID,
+  id: ID;
   hit: boolean;
   hitType: HitType;
-}
+};
 
 export type State = Collection<Hit>;
 
@@ -20,7 +20,7 @@ export const hitsSlice = createSlice({
     'hit-2': {
       id: 'hit-2',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-3': {
       id: 'hit-3',
@@ -35,7 +35,7 @@ export const hitsSlice = createSlice({
     'hit-5': {
       id: 'hit-5',
       hit: true,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-6': {
       id: 'hit-6',
@@ -45,7 +45,7 @@ export const hitsSlice = createSlice({
     'hit-7': {
       id: 'hit-7',
       hit: true,
-      hitType: HitType.ACCENT
+      hitType: HitType.ACCENT,
     },
     'hit-8': {
       id: 'hit-8',
@@ -55,7 +55,7 @@ export const hitsSlice = createSlice({
     'hit-9': {
       id: 'hit-9',
       hit: true,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-10': {
       id: 'hit-10',
@@ -65,22 +65,22 @@ export const hitsSlice = createSlice({
     'hit-11': {
       id: 'hit-11',
       hit: true,
-      hitType: HitType.ACCENT
+      hitType: HitType.ACCENT,
     },
     'hit-12': {
       id: 'hit-12',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-13': {
       id: 'hit-13',
       hit: false,
-      hitType: HitType.GHOST
+      hitType: HitType.GHOST,
     },
     'hit-14': {
       id: 'hit-14',
       hit: false,
-      hitType: HitType.GHOST
+      hitType: HitType.GHOST,
     },
     'hit-15': {
       id: 'hit-15',
@@ -95,7 +95,7 @@ export const hitsSlice = createSlice({
     'hit-17': {
       id: 'hit-17',
       hit: false,
-      hitType: HitType.ACCENT
+      hitType: HitType.ACCENT,
     },
     'hit-18': {
       id: 'hit-18',
@@ -120,144 +120,144 @@ export const hitsSlice = createSlice({
     'hit-22': {
       id: 'hit-22',
       hit: false,
-      hitType: HitType.ACCENT
+      hitType: HitType.ACCENT,
     },
     'hit-23': {
       id: 'hit-23',
       hit: false,
-      hitType: HitType.ACCENT
+      hitType: HitType.ACCENT,
     },
     'hit-24': {
       id: 'hit-24',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-25': {
       id: 'hit-25',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-26': {
       id: 'hit-26',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-27': {
       id: 'hit-27',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-28': {
       id: 'hit-28',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-29': {
       id: 'hit-29',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-30': {
       id: 'hit-30',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-31': {
       id: 'hit-31',
       hit: true,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-32': {
       id: 'hit-32',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-33': {
       id: 'hit-33',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-34': {
       id: 'hit-34',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-35': {
       id: 'hit-35',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-36': {
       id: 'hit-36',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-37': {
       id: 'hit-37',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-38': {
       id: 'hit-38',
       hit: true,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-39': {
       id: 'hit-39',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-40': {
       id: 'hit-40',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-41': {
       id: 'hit-41',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-42': {
       id: 'hit-42',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-43': {
       id: 'hit-43',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-44': {
       id: 'hit-44',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-45': {
       id: 'hit-45',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-46': {
       id: 'hit-46',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-47': {
       id: 'hit-47',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
     'hit-48': {
       id: 'hit-48',
       hit: false,
-      hitType: HitType.NORMAL
+      hitType: HitType.NORMAL,
     },
   },
   reducers: {
     toggleHit(state, { payload }) {
       state[payload].hit = !state[payload].hit;
-    }
-  }
+    },
+  },
 });
 
 export const { toggleHit } = hitsSlice.actions;
@@ -265,6 +265,6 @@ export const { toggleHit } = hitsSlice.actions;
 export const selectHit = (hitId) => (state) => state.hits[hitId];
 
 export const selectHits = (hitIds) => (state) => {
-  const allHits =  state.hits;
+  const allHits = state.hits;
   return hitIds.map((id) => allHits[id]);
-}
+};

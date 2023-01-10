@@ -5,7 +5,7 @@ type State = {
   tempo: number;
   measureIndex: number;
   noteId: ID;
-}
+};
 
 const generalSlice = createSlice({
   name: 'general',
@@ -23,8 +23,8 @@ const generalSlice = createSlice({
     },
     setMeasureIndex(state, { payload }) {
       state.measureIndex = payload;
-    }
-  }
+    },
+  },
 });
 
 const { setNoteId, setMeasureIndex } = generalSlice.actions;
@@ -37,4 +37,3 @@ export const selectTempo = (state) => state.general.tempo;
 export const selectPlayState = (state) => state.general.playState;
 export const selectActiveMeasureIndex = (state) => state.general.measureIndex;
 export const selectActiveNoteId = (state) => state.general.noteId;
-

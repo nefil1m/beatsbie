@@ -9,15 +9,16 @@ import classNames from 'classnames';
 type Props = {
   id: ID;
   active?: boolean;
-}
+};
 
 export const Measure = ({ id, active = false }: Props) => {
   const { beats } = useSelector(selectMeasure(id));
 
   return (
     <div className={classNames(styles.measure, { [styles.measureActive]: active })}>
-      {beats.map((beatId) => <Beat id={beatId} key={beatId} />)}
+      {beats.map((beatId) => (
+        <Beat id={beatId} key={beatId} />
+      ))}
     </div>
   );
 };
-

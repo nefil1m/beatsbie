@@ -26,7 +26,7 @@ export type DrumKit = {
   [key in Drum]?: {
     [key in HitType]?: string;
   };
-}
+};
 
 export type ID = string;
 

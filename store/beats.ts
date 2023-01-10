@@ -5,7 +5,7 @@ export type Beat = {
   id: string;
   division: BeatDivision;
   notes: Pointer[];
-}
+};
 
 export type State = Collection<Beat>;
 
@@ -31,12 +31,12 @@ export const beatsSlice = createSlice({
       id: 'beat-4',
       division: 4,
       notes: ['note-13', 'note-14', 'note-15', 'note-16'],
-    }
+    },
   },
   reducers: {
     addBeat() {
       // todo
-    }
+    },
   },
 });
 

@@ -6,7 +6,7 @@ export type Note = {
   drums: {
     [key in Drum]?: Pointer;
   };
-}
+};
 
 export type State = Collection<Note>;
 

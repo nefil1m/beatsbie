@@ -12,7 +12,7 @@ export type RootState = {
   beats: BeatState;
   general: GeneralState;
   notes: NotesState;
-}
+};
 
 const store = configureStore({
   reducer: {
@@ -26,13 +26,14 @@ const store = configureStore({
 
 const fillHits = (hitsMap: HitState, note: Note) => ({
   ...note,
-  drums: Object
-    .entries(note.drums)
-    .reduce((all, [drum, hitId]) => ({
+  drums: Object.entries(note.drums).reduce(
+    (all, [drum, hitId]) => ({
       ...all,
       [drum]: hitsMap[hitId],
-    }), {}),
-})
+    }),
+    {}
+  ),
+});
 
 const selectAll = memoize((state: RootState) => {
   const allMeasures = Object.values(state.measures);
@@ -40,16 +41,14 @@ const selectAll = memoize((state: RootState) => {
   const hitsMap = state.hits;
   const notesMap = state.notes;
 
-  return allMeasures.map(measure => ({
+  return allMeasures.map((measure) => ({
     ...measure,
     beats: measure.beats.map((beatId) => {
       const beat = beatsMap[beatId];
 
       return {
         ...beat,
-        notes: beat.notes.map(
-          (noteId) => fillHits(hitsMap, notesMap[noteId])
-        ),
+        notes: beat.notes.map((noteId) => fillHits(hitsMap, notesMap[noteId])),
       };
     }),
   }));

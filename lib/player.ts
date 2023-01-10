@@ -56,7 +56,7 @@ class Player {
     });
   }
 
-  async playMeasure (measure, beatLength) {
+  async playMeasure(measure, beatLength) {
     for (const note of measure) {
       this.activeNoteId = note.id;
       await this.playNote(note, beatLength);

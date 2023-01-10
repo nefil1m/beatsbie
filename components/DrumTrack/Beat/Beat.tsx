@@ -7,7 +7,7 @@ import styles from './Beat.module.scss';
 
 type Props = {
   id: ID;
-}
+};
 
 export const Beat = ({ id }: Props) => {
   const { notes }: TBeat = useSelector(selectBeat(id));
@@ -20,4 +20,3 @@ export const Beat = ({ id }: Props) => {
     </div>
   );
 };
-

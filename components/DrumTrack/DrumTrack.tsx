@@ -13,11 +13,7 @@ export const DrumTrack = () => {
   return (
     <div className={styles.drumTrack}>
       {measures.map((measureId, index) => (
-        <Measure
-          id={measureId}
-          key={measureId}
-          active={index === activeMeasureIndex}
-        />
+        <Measure id={measureId} key={measureId} active={index === activeMeasureIndex} />
       ))}
       <div>
         <Button size={ButtonSize.LG} shape={ButtonShape.CIRCLE}>

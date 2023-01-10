@@ -75,7 +75,7 @@ export const Player = () => {
 
   return (
     <div className={styles.player}>
-      <span/>
+      <span />
       <Button
         onClick={() => {
           player.togglePlaying();
@@ -86,10 +86,9 @@ export const Player = () => {
         size={ButtonSize.XL}
         btnStyle={isPlaying ? ButtonStyle.ERROR : ButtonStyle.SUCCESS}
       >
-        {isPlaying ? <RiStopLine/> : <RiPlayLine/>}
+        {isPlaying ? <RiStopLine /> : <RiPlayLine />}
       </Button>
-      <span/>
+      <span />
     </div>
   );
 };
-
