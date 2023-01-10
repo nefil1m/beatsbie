@@ -1,0 +1,74 @@
+.btn {
+  --width: 'auto';
+
+  margin: 0;
+  padding: var(--padding);
+  background-color: var(--bg-color);
+  border: 0;
+  color: var(--font-color);
+  height: var(--height);
+  width: var(--width);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: inset 3px 3px 6px -3px transparent;
+  transition: box-shadow .125s ease-out;
+
+  &[disabled] {
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    box-shadow: inset 7px 7px 6px -3px rgb(100 100 100 / 80%);
+  }
+
+  &:active {
+    box-shadow: inset 10px 10px 6px -5px rgb(60 60 60 / 80%);
+  }
+
+  > svg {
+    --size: calc(var(--height) * 0.60);
+
+    fill: var(--font-color);
+    display: block;
+    width: var(--size);
+    height: var(--size);
+  }
+}
+
+.btnDefault {
+  --bg-color: #bbb;
+  --font-color: #333;
+}
+
+.btnError {
+  --bg-color: #bbb;
+  --font-color: #333;
+}
+
+.btnSuccess {
+  --bg-color: #2eb725;
+  --font-color: #fff;
+}
+
+.btnMd {
+  --height: 24px;
+  --padding: 2px 8px;
+}
+
+.btnLg {
+  --height: 32px;
+  --padding: 4px 12px;
+}
+
+.btnXl {
+  --height: 48px;
+  --padding: 8px 16px;
+}
+
+.btnCircle {
+  --width: var(--height);
+  --padding: 2px;
+  border-radius: 500px;
+}

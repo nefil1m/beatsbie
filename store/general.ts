@@ -1,33 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { PlayState } from '../lib/types';
+import { ID } from '../lib/types';
 
 type State = {
   tempo: number;
-  playState: PlayState;
+  measureIndex: number;
+  noteId: ID;
 }
 
 const generalSlice = createSlice({
   name: 'general',
   initialState: {
     tempo: 120,
-    playState: PlayState.STOPPED,
     measureIndex: 0,
     noteId: null,
   },
   reducers: {
     setTempo(state, { payload }) {
       state.tempo = payload;
-    },
-    play(state) {
-      state.playState = PlayState.PLAYING;
-    },
-    stop(state) {
-      state.playState = PlayState.STOPPED;
-    },
-    togglePlayState: (state) => {
-      state.playState = state.playState === PlayState.PLAYING
-                        ? PlayState.STOPPED
-                        : PlayState.PLAYING;
     },
     setNoteId(state, { payload }) {
       state.noteId = payload;
@@ -38,9 +27,9 @@ const generalSlice = createSlice({
   }
 });
 
-const { stop, play, togglePlayState, setNoteId, setMeasureIndex } = generalSlice.actions;
+const { setNoteId, setMeasureIndex } = generalSlice.actions;
 
-export { generalSlice, stop, play, togglePlayState, setNoteId, setMeasureIndex };
+export { generalSlice, setNoteId, setMeasureIndex };
 
 export type { State };
 

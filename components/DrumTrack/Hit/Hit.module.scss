@@ -1,14 +1,16 @@
 .hit {
+  --color: #2d2d2d;
+
   width: 25px;
   height: 25px;
   border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid rebeccapurple;
-  background: transparent;
+  border: 1px solid var(--color);
+  background: white;
 }
 
 .hitActive {
-  background: rebeccapurple;
+  background: var(--color);
 }

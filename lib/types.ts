@@ -1,4 +1,4 @@
-enum Drum {
+export enum Drum {
   HI_HAT = 'HI_HAT',
   HI_HAT_FOOT = 'HI_HAT_FOOT',
   SNARE = 'SNARE',
@@ -15,33 +15,25 @@ enum Drum {
   COWBELL = 'COWBELL',
 }
 
-enum HitType {
+export enum HitType {
   NORMAL = 'NORMAL',
   ACCENT = 'ACCENT',
   GHOST = 'GHOST',
   OPEN = 'OPEN',
 }
 
-enum PlayState {
-  PLAYING = 'PLAYING',
-  STOPPED = 'STOPPED'
-}
-
-type DrumKit = {
+export type DrumKit = {
   [key in Drum]?: {
     [key in HitType]?: string;
   };
 }
 
-type ID = string;
+export type ID = string;
 
-type Pointer = ID;
+export type Pointer = ID;
 
-type Metre = [number, number];
+export type Metre = [number, number];
 
-type BeatDivision = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+export type BeatDivision = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
-type Collection<T> = Record<ID, T>;
-
-export type { Metre, BeatDivision, ID, Pointer, Collection, DrumKit };
-export { Drum, HitType, PlayState };
+export type Collection<T> = Record<ID, T>;

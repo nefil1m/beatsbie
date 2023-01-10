@@ -11,7 +11,7 @@ type Props = {
   active?: boolean;
 }
 
-const Measure = ({ id, active = false }: Props) => {
+export const Measure = ({ id, active = false }: Props) => {
   const { beats } = useSelector(selectMeasure(id));
 
   return (
@@ -21,4 +21,3 @@ const Measure = ({ id, active = false }: Props) => {
   );
 };
 
-export { Measure };

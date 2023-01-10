@@ -9,7 +9,7 @@ type Props = {
   id: ID;
 }
 
-const Hit = ({ id }: Props) => {
+export const Hit = ({ id }: Props) => {
   const dispatch = useDispatch();
   const hit = useSelector(selectHit(id));
 
@@ -23,4 +23,3 @@ const Hit = ({ id }: Props) => {
   );
 };
 
-export { Hit };

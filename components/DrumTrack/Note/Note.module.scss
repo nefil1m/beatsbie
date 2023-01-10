@@ -3,8 +3,19 @@
   flex-direction: column;
   gap: 5px;
   border: 1px solid transparent;
+  position: relative;
 }
 
 .noteActive {
-  border-color: red;
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 130%;
+    height: 130%;
+    top: -15%;
+    left: -15%;
+    border-radius: 20px;
+    background: #00d0ff;
+  }
 }

@@ -1,5 +1,7 @@
 .beat {
-  padding: 20px;
   display: flex;
-  gap: 5px;
+  gap: 8px;
+  padding: 16px;
+  position: relative;
+  z-index: 20000;
 }
