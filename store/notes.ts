@@ -148,9 +148,14 @@ export const notesSlice = createSlice({
         state[note.id] = note;
       });
     },
+    removeNotes(state, { payload }) {
+      payload.forEach((id) => {
+        delete state[id];
+      });
+    },
   },
 });
 
-export const { addNotes } = notesSlice.actions;
+export const { addNotes, removeNotes } = notesSlice.actions;
 
 export const selectNote = (noteId) => (state) => state.notes[noteId];

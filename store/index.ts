@@ -8,11 +8,11 @@ import { memoize } from 'lodash';
 import { ID } from '../lib/types';
 
 export type RootState = {
-  measures: MeasureState;
-  hits: HitState;
-  beats: BeatState;
   general: GeneralState;
+  measures: MeasureState;
+  beats: BeatState;
   notes: NotesState;
+  hits: HitState;
 };
 
 export const store = configureStore({
@@ -36,7 +36,7 @@ const fillHits = (hitsMap: HitState, note: Note) => ({
   ),
 });
 
-export const retrieveMeasure = (measureId, hits, notes, beats, measures) => {
+export const retrieveMeasure = memoize((measureId, hits, notes, beats, measures) => {
   const measure = measures[measureId];
 
   return {
@@ -50,13 +50,13 @@ export const retrieveMeasure = (measureId, hits, notes, beats, measures) => {
       };
     }),
   };
-};
+});
 
-export const _retrieveTrackMemoized = memoize((hits, notes, beats, measures) => {
+export const _retrieveTrackMemoized = (hits, notes, beats, measures) => {
   return Object.keys(measures).map((measureId) =>
     retrieveMeasure(measureId, hits, notes, beats, measures)
   );
-});
+};
 
 export const retrieveTrack = (state) => {
   return _retrieveTrackMemoized(state.hits, state.notes, state.beats, state.measures);

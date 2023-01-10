@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { BeatDivision, Collection, Drum, Pointer } from '../lib/types';
+import { BeatDivision, Collection, Pointer } from '../lib/types';
 
 export type Beat = {
   id: string;
@@ -39,9 +39,14 @@ export const beatsSlice = createSlice({
         state[beat.id] = beat;
       });
     },
+    removeBeats(state, { payload }) {
+      payload.forEach((id) => {
+        delete state[id];
+      });
+    },
   },
 });
 
-export const { addBeats } = beatsSlice.actions;
+export const { addBeats, removeBeats } = beatsSlice.actions;
 
 export const selectBeat = (beatId) => (state) => state.beats[beatId];

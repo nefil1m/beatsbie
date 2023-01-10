@@ -22,10 +22,13 @@ export const measuresSlice = createSlice({
     addMeasure(state, { payload }) {
       state[payload.id] = payload;
     },
+    removeMeasure(state, { payload }) {
+      delete state[payload];
+    },
   },
 });
 
-export const { addMeasure } = measuresSlice.actions;
+export const { addMeasure, removeMeasure } = measuresSlice.actions;
 
 export const selectMeasurePointers = (state) => Object.keys(state.measures);
 export const selectMeasure = (measureId) => (state) => state.measures[measureId];
