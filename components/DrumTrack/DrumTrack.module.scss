@@ -1,7 +1,9 @@
 .drumTrack {
   margin: 24px;
-  width: 100%;
+  max-width: 100%;
   display: flex;
   align-items: center;
   gap: 16px;
+  overflow-x: auto;
+  padding: 8px;
 }
