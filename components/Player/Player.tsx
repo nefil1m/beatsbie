@@ -59,8 +59,7 @@ export const Player = () => {
       onNoteIdChange: (id) => dispatch(setNoteId(id)),
       onStop: () => {
         setIsPlaying(false);
-        dispatch(setMeasureIndex(0));
-        dispatch(setNoteId(null));
+        dispatch(setMeasureIndex(null));
       },
     });
   }, [dispatch]);

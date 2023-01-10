@@ -12,7 +12,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: inset 3px 3px 6px -3px transparent;
+  box-shadow: inset 3px 3px 0 0 rgb(0 0 0 / 0%);
   transition: box-shadow 0.125s ease-out;
 
   &[disabled] {
@@ -20,11 +20,11 @@
   }
 
   &:hover {
-    box-shadow: inset 3px 3px 0px 0px rgb(0 0 0 / 20%);
+    box-shadow: inset 3px 3px 0 0 rgb(0 0 0 / 20%);
   }
 
   &:active {
-    box-shadow: inset 5px 5px 0px 0px rgb(0 0 0 / 30%);
+    box-shadow: inset 5px 5px 0 0 rgb(0 0 0 / 30%);
   }
 
   > svg {

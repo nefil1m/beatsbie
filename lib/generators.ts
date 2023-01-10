@@ -1,26 +1,29 @@
-import { Hit } from '../store/hits';
 import { uniqueId } from 'lodash';
-import { Drum } from './types';
+import { Drum, ID } from './types';
 
-export const cloneMeasure = (measure) => {
+export const cloneMeasure = (measureId, state) => {
+  const measure = state.measures[measureId];
   const hits = [];
   const notes = [];
   const beats = [];
   const newMeasure = {
     ...measure,
     id: uniqueId('_measure-'),
-    beats: measure.beats.map((beat) => {
+    beats: measure.beats.map((originalBeatId) => {
+      const beat = state.beats[originalBeatId];
       const beatId = uniqueId('_beat-');
 
       beats.push({
         ...beat,
-        notes: beat.notes.map((note) => {
+        notes: beat.notes.map((originalNoteId) => {
+          const note = state.notes[originalNoteId];
           const noteId = uniqueId('_note-');
 
           notes.push({
             ...note,
             id: noteId,
-            drums: Object.entries(note.drums).reduce((all, [drum, hit]: [Drum, Hit]) => {
+            drums: Object.entries(note.drums).reduce((all, [drum, originalHitId]: [Drum, ID]) => {
+              const hit = state.hits[originalHitId];
               const hitId = uniqueId('_hit-');
 
               hits.push({

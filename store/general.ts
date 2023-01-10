@@ -11,7 +11,7 @@ const generalSlice = createSlice({
   name: 'general',
   initialState: {
     tempo: 120,
-    measureIndex: 0,
+    measureIndex: null,
     noteId: null,
   },
   reducers: {

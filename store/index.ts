@@ -19,9 +19,9 @@ export const store = configureStore({
   reducer: {
     general: generalSlice.reducer,
     measures: measuresSlice.reducer,
-    hits: hitsSlice.reducer,
     beats: beatsSlice.reducer,
     notes: notesSlice.reducer,
+    hits: hitsSlice.reducer,
   },
 });
 
@@ -36,28 +36,28 @@ const fillHits = (hitsMap: HitState, note: Note) => ({
   ),
 });
 
-export const retrieveMeasure =
-  (measureId: ID) => (state: Pick<RootState, 'measures' | 'beats' | 'notes' | 'hits'>) => {
-    const measure = state.measures[measureId];
+export const retrieveMeasure = (measureId, hits, notes, beats, measures) => {
+  const measure = measures[measureId];
 
-    return {
-      ...measure,
-      beats: measure.beats.map((beatId: ID) => {
-        const beat = state.beats[beatId];
+  return {
+    ...measure,
+    beats: measure.beats.map((beatId: ID) => {
+      const beat = beats[beatId];
 
-        return {
-          ...beat,
-          notes: beat.notes.map((noteId: ID) => fillHits(state.hits, state.notes[noteId])),
-        };
-      }),
-    };
+      return {
+        ...beat,
+        notes: beat.notes.map((noteId: ID) => fillHits(hits, notes[noteId])),
+      };
+    }),
   };
+};
 
-export const _retrieveTrackMemoized = memoize((measures, beats, notes, hits) => {
+export const _retrieveTrackMemoized = memoize((hits, notes, beats, measures) => {
   return Object.keys(measures).map((measureId) =>
-    retrieveMeasure(measureId)({ measures, beats, notes, hits })
+    retrieveMeasure(measureId, hits, notes, beats, measures)
   );
 });
 
-export const retrieveTrack = (state) =>
-  _retrieveTrackMemoized(state.measures, state.beats, state.notes, state.hits);
+export const retrieveTrack = (state) => {
+  return _retrieveTrackMemoized(state.hits, state.notes, state.beats, state.measures);
+};
