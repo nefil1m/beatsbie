@@ -44,9 +44,12 @@ export const beatsSlice = createSlice({
         delete state[id];
       });
     },
+    updateBeat(state, { payload }) {
+      state[payload.id] = payload;
+    },
   },
 });
 
-export const { addBeats, removeBeats } = beatsSlice.actions;
+export const { addBeats, removeBeats, updateBeat } = beatsSlice.actions;
 
 export const selectBeat = (beatId) => (state) => state.beats[beatId];

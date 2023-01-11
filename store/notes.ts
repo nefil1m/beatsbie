@@ -159,3 +159,5 @@ export const notesSlice = createSlice({
 export const { addNotes, removeNotes } = notesSlice.actions;
 
 export const selectNote = (noteId) => (state) => state.notes[noteId];
+export const selectNotes = (noteIds) => (state) => noteIds.map((id) => state.notes[id]);
+export const selectNoteState = (state) => state.notes;

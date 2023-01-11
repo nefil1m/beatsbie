@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MetalDrumKit } from '../../lib/drumkits';
+import { MetalDrumKit } from '../../lib/drumKits';
 import { DrumKit, HitType } from '../../lib/types';
 import { retrieveTrack } from '../../store';
 import { selectTempo, setMeasureIndex, setNoteId, setTempo } from '../../store/general';
@@ -8,14 +8,14 @@ import { player } from '../../lib/player';
 import { Hit } from '../../store/hits';
 import styles from './Player.module.scss';
 import { Button, ButtonShape, ButtonSize, ButtonStyle } from '../Button/Button';
-import { RiPlayLine, RiStopLine } from 'react-icons/ri';
+import { RiPlayLine, RiStopLine, RiTimerLine } from 'react-icons/ri';
 
-const getHitsByNote = (drumkit: DrumKit, drums: Hit[]) => {
+const getHitsByNote = (drumKit: DrumKit, drums: Hit[]) => {
   const out = [];
 
   Object.entries(drums).forEach(([drum, hit]) => {
     if (hit.hit) {
-      const drumDef = drumkit[drum];
+      const drumDef = drumKit[drum];
       const hitSound = drumDef[hit.hitType] || drumDef[HitType.NORMAL];
 
       out.push(new Audio(hitSound));
@@ -25,7 +25,7 @@ const getHitsByNote = (drumkit: DrumKit, drums: Hit[]) => {
   return out;
 };
 
-const trackToQueue = (drumkit: DrumKit, measures) => {
+const trackToQueue = (drumKit: DrumKit, measures) => {
   const out = [];
 
   measures.forEach(({ beats }) => {
@@ -36,7 +36,7 @@ const trackToQueue = (drumkit: DrumKit, measures) => {
         m.push({
           id: note.id,
           value: division,
-          toPlay: getHitsByNote(drumkit, note.drums),
+          toPlay: getHitsByNote(drumKit, note.drums),
         });
       });
     });
@@ -78,19 +78,24 @@ export const Player = () => {
 
   return (
     <div className={styles.player}>
-      <input onChange={onTempoChange} value={tempo} />
-      <Button
-        onClick={() => {
-          player.togglePlaying();
-          setIsPlaying(true);
-        }}
-        shape={ButtonShape.CIRCLE}
-        className={styles.playBtn}
-        size={ButtonSize.XL}
-        btnStyle={isPlaying ? ButtonStyle.ERROR : ButtonStyle.SUCCESS}
-      >
-        {isPlaying ? <RiStopLine /> : <RiPlayLine />}
-      </Button>
+      <div className={styles.tempo}>
+        <RiTimerLine />
+        <input onChange={onTempoChange} value={tempo} className={styles.tempoInput} />
+      </div>
+      <div className={styles.playBtnWrapper}>
+        <Button
+          onClick={() => {
+            player.togglePlaying();
+            setIsPlaying(true);
+          }}
+          shape={ButtonShape.CIRCLE}
+          className={styles.playBtn}
+          size={ButtonSize.XL}
+          btnStyle={isPlaying ? ButtonStyle.ERROR : ButtonStyle.SUCCESS}
+        >
+          {isPlaying ? <RiStopLine /> : <RiPlayLine />}
+        </Button>
+      </div>
       <span />
     </div>
   );

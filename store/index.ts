@@ -3,8 +3,8 @@ import { generalSlice, State as GeneralState } from './general';
 import { measuresSlice, State as MeasureState } from './measures';
 import { hitsSlice, State as HitState } from './hits';
 import { beatsSlice, State as BeatState } from './beats';
+import { drumKitSlice, State as DrumKitState } from './drumKit';
 import { Note, notesSlice, State as NotesState } from './notes';
-import { memoize } from 'lodash';
 import { ID } from '../lib/types';
 
 export type RootState = {
@@ -13,6 +13,7 @@ export type RootState = {
   beats: BeatState;
   notes: NotesState;
   hits: HitState;
+  drumKit: DrumKitState;
 };
 
 export const store = configureStore({
@@ -22,6 +23,7 @@ export const store = configureStore({
     beats: beatsSlice.reducer,
     notes: notesSlice.reducer,
     hits: hitsSlice.reducer,
+    drumKit: drumKitSlice.reducer,
   },
 });
 
