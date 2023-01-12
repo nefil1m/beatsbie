@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Collection, Drum, HitType, ID, Pointer } from '../lib/types';
-import { uniqueId } from 'lodash';
+import { Collection, Drum, ID, Pointer } from '../lib/types';
 
 export type Note = {
   id: ID;

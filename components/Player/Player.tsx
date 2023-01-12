@@ -12,10 +12,8 @@ export const Player = () => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    player.onStop = () => {
-      setIsPlaying(false);
-    };
-  }, [dispatch]);
+    player.setOnStop(() => setIsPlaying(false));
+  }, [setIsPlaying]);
 
   const onTempoChange = ({ target: { value } }) => {
     dispatch(setTempo(Number(value)));

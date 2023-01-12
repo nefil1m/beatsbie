@@ -1,171 +1,113 @@
 import { noop } from 'lodash';
-import { retrieveTrack, store } from '../store';
-import { MetalDrumKit } from './drumKits';
-import { DrumKit, HitType } from './types';
-import { Hit } from '../store/hits';
+import { store } from '../store';
+import { Drum, DrumKit, HitType, ID } from './types';
 import { setMeasureIndex, setNoteId } from '../store/general';
 
 const A_MINUTE = 1000 * 60;
 
-const getHitsByNote = (drumKit: DrumKit, drums: Hit[] = []) => {
-  const out = [];
-
-  Object.entries(drums).forEach(([drum, hit]) => {
-    if (hit?.hit) {
-      const drumDef = drumKit[drum];
-      const hitSound = drumDef[hit.hitType] || drumDef[HitType.NORMAL];
-
-      out.push(new Audio(hitSound));
-    }
-  });
-
-  return out;
-};
-
-const trackToQueue = (drumKit: DrumKit, measures) => {
-  const out = [];
-
-  measures.forEach(({ beats = [] }) => {
-    const m = [];
-
-    beats.forEach(({ division, notes = [] }) => {
-      notes.forEach((note) => {
-        m.push({
-          id: note?.id,
-          value: division,
-          toPlay: getHitsByNote(drumKit, note?.drums),
-        });
-      });
-    });
-
-    out.push(m);
-  });
-
-  return out;
+const getHitSound = (drumKit: DrumKit, drum: Drum, hitType: HitType) => {
+  return drumKit[drum][hitType] || drumKit[drum][HitType.NORMAL];
 };
 
 /* Yeah, yeah I know it's against the rules to use store directly but in this case the time is crucial
  * and connecting Player to the store directly improves performance *a lot* */
 class Player {
   _playing = false;
-  _queue = [];
-  previousState = null;
-  _onStop = noop;
+  onStop = noop;
 
   constructor() {
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
-    this.play = this.play.bind(this);
-    this.playNote = this.playNote.bind(this);
-    this.playMeasure = this.playMeasure.bind(this);
     this.togglePlaying = this.togglePlaying.bind(this);
-    this.listenStateChange = this.listenStateChange.bind(this);
+  }
 
-    store.subscribe(this.listenStateChange);
+  async playNote(noteId: ID, duration: number) {
+    const state = store.getState();
+    const note = state.notes[noteId];
+
+    if (this.playing) {
+      return new Promise<void>((resolve) => {
+        const toPlay = [];
+        Object.entries(note.drums).forEach(([drum, hitId]: [Drum, ID]) => {
+          const hit = state.hits[hitId];
+          if (hit.hit) {
+            toPlay.push(new Audio(getHitSound(state.drumKit.drumKit, drum, hit.hitType)));
+          }
+        });
+
+        if (toPlay.length) {
+          this.setActiveNoteId(noteId);
+          toPlay.forEach((sound) => sound.play());
+        }
+
+        setTimeout(() => resolve(), duration);
+      });
+    }
+
+    return Promise.resolve();
+  }
+
+  async playBeat(beatId: ID) {
+    const beatLength = A_MINUTE / this.tempo;
+    const state = store.getState();
+    const beat = state.beats[beatId];
+
+    for (const note of beat.notes) {
+      await this.playNote(note, beatLength / beat.division);
+    }
+  }
+
+  async playMeasure(measureId: ID) {
+    const state = store.getState();
+    const measure = state.measures[measureId];
+
+    for (const beat of measure.beats) {
+      await this.playBeat(beat);
+    }
+  }
+
+  async play() {
+    const state = store.getState();
+
+    if (this.playing) {
+      const measures = Object.values(state.measures);
+
+      for (const measure of measures) {
+        this.setActiveMeasureIndex(measures.indexOf(measure));
+        await this.playMeasure(measure.id);
+      }
+
+      return this.play();
+    }
+
+    return Promise.resolve();
   }
 
   get playing() {
-    return this._playing && !!this.queue.length;
+    return this._playing && !!Object.keys(store.getState().measures).length;
   }
 
   set playing(playing) {
     this._playing = playing;
   }
 
-  set queue(queue) {
-    this._queue = queue;
-  }
-
-  get queue() {
-    return this._queue;
-  }
-
   get tempo() {
     return store.getState().general.tempo;
   }
 
-  set activeNoteId(id) {
+  setActiveNoteId(id) {
     store.dispatch(setNoteId(id));
   }
 
-  set activeMeasureIndex(index) {
+  setActiveMeasureIndex(index) {
     store.dispatch(setMeasureIndex(index));
   }
 
-  set onStop(cb) {
-    this._onStop = cb;
-  }
-
-  get onStop() {
-    return this._onStop;
-  }
-
-  async playNote(note, beatLength) {
-    return new Promise((resolve) => {
-      note.toPlay.forEach((hit) => {
-        hit.play();
-      });
-
-      if (this.playing) {
-        setTimeout(resolve, beatLength / note.value);
-      } else {
-        this.stop();
-      }
-    });
-  }
-
-  async playMeasure(measure, beatLength) {
-    for (const note of measure) {
-      this.activeNoteId = note.id;
-      await this.playNote(note, beatLength);
-    }
-  }
-
-  async play() {
-    if (this.playing) {
-      const beatLength = A_MINUTE / this.tempo;
-
-      for (const [index, measure] of Object.entries(this._queue)) {
-        this.activeMeasureIndex = +index % this._queue.length;
-        await this.playMeasure(measure, beatLength);
-      }
-
-      this.play();
-    }
-  }
-
-  listenStateChange() {
-    const newState = store.getState();
-
-    if (!this.previousState) {
-      this.previousState = newState;
-    }
-
-    if (this.previousState !== newState && this.playing) {
-      // basically ignore:
-      // - `general.activeMeasureIndex`
-      // - `general.activeNoteId`
-      // - `drumKit.drums`
-      // - `general.tempo` - it is always gotten fresh
-      if (
-        this.previousState.hits !== newState.hits ||
-        this.previousState.notes !== newState.notes ||
-        this.previousState.beats !== newState.beats ||
-        this.previousState.measures !== newState.measures ||
-        this.previousState.drumKit.drumKit !== newState.drumKit.drumKit
-      ) {
-        this.previousState = newState;
-        this.queue = this.getQueue(newState);
-      }
-    }
-  }
-
-  getQueue(state = store.getState()) {
-    return trackToQueue(state.drumKit.drumKit, retrieveTrack(state));
+  setOnStop(cb) {
+    this.onStop = cb;
   }
 
   start() {
-    this.queue = this.getQueue();
     this.playing = true;
     this.play();
   }
