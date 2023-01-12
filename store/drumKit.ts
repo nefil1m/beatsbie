@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { MetalDrumKit } from '../lib/drumKits';
 import { Drum, DrumKit, HitType } from '../lib/types';
-import { uniqueId } from 'lodash';
-import { addHits } from './hits';
+import { cloneDeep, uniqueId } from 'lodash';
+import { addHits, removeHits } from './hits';
 import { Note, updateNotes } from './notes';
 
 export type State = {
@@ -20,10 +20,13 @@ export const drumKitSlice = createSlice({
     addDrum(state, { payload }) {
       state.drums.push(payload);
     },
+    removeDrum(state, { payload }) {
+      state.drums = state.drums.filter((stateDrum) => stateDrum !== payload);
+    },
   },
 });
 
-export const { addDrum } = drumKitSlice.actions;
+export const { addDrum, removeDrum } = drumKitSlice.actions;
 
 export const selectDrums = (state) => state.drumKit.drums;
 
@@ -56,5 +59,27 @@ export const addDrumThunk = (drum) => {
     dispatch(addDrum(drum));
     dispatch(addHits(newHits));
     dispatch(updateNotes(newNotes));
+  };
+};
+
+export const removeDrumThunk = (drum) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const allNotes: Note[] = Object.values(state.notes);
+    const hitsToRemove = [];
+    const notesToUpdate = [];
+
+    allNotes.forEach((note) => {
+      hitsToRemove.push(note.drums[drum]);
+
+      const newNote = cloneDeep(note);
+      delete newNote.drums[drum];
+
+      notesToUpdate.push(newNote);
+    });
+
+    dispatch(removeHits(hitsToRemove));
+    dispatch(updateNotes(notesToUpdate));
+    dispatch(removeDrum(drum));
   };
 };

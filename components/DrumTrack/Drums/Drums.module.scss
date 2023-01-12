@@ -13,4 +13,28 @@
   height: 25px;
   align-items: center;
   width: 100%;
+  position: relative;
+}
+
+.deleteBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+  background: transparent;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  z-index: 2;
+
+  > svg {
+    fill: #777;
+    display: inline-block;
+  }
+
+  &:hover {
+    > svg {
+      fill: red;
+    }
+  }
 }

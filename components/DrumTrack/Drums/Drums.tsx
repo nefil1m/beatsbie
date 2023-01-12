@@ -1,7 +1,9 @@
-import { addDrumThunk, selectDrums } from '../../../store/drumKit';
+import { addDrumThunk, removeDrumThunk, selectDrums } from '../../../store/drumKit';
 import { Drum } from '../../../lib/types';
 import styles from './Drums.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../store';
+import { RiCloseCircleLine } from 'react-icons/ri';
+import React from 'react';
 
 const drumLabels = {
   [Drum.HI_HAT]: 'Hi-hat',
@@ -25,12 +27,19 @@ export const Drums = () => {
     dispatch(addDrumThunk(value));
   };
 
+  const onDrumDelete = (drum) => {
+    dispatch(removeDrumThunk(drum));
+  };
+
   return (
     <div className={styles.drums}>
       {drums.map((drum) => {
         return (
           <p key={drum} className={styles.drum}>
             {drumLabels[drum]}
+            <button type="button" onClick={() => onDrumDelete(drum)} className={styles.deleteBtn}>
+              <RiCloseCircleLine />
+            </button>
           </p>
         );
       })}
