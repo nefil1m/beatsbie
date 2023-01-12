@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Collection, Drum, ID, Pointer } from '../lib/types';
+import { Collection, Drum, HitType, ID, Pointer } from '../lib/types';
+import { uniqueId } from 'lodash';
 
 export type Note = {
   id: ID;
@@ -153,11 +154,17 @@ export const notesSlice = createSlice({
         delete state[id];
       });
     },
+    updateNotes(state, { payload }) {
+      payload.forEach((note) => {
+        state[note.id] = note;
+      });
+    },
   },
 });
 
-export const { addNotes, removeNotes } = notesSlice.actions;
+export const { addNotes, removeNotes, updateNotes } = notesSlice.actions;
 
 export const selectNote = (noteId) => (state) => state.notes[noteId];
 export const selectNotes = (noteIds) => (state) => noteIds.map((id) => state.notes[id]);
 export const selectNoteState = (state) => state.notes;
+export const selectAllNotes = (state): Note[] => Object.values(state.notes);

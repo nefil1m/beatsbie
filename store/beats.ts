@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { BeatDivision, Collection, Pointer } from '../lib/types';
+import { BeatDivision, Collection, HitType, Pointer } from '../lib/types';
+import { cloneDeep, times, uniqueId } from 'lodash';
+import { addNotes, removeNotes } from './notes';
+import { addHits, removeHits } from './hits';
 
 export type Beat = {
   id: string;
@@ -53,3 +56,51 @@ export const beatsSlice = createSlice({
 export const { addBeats, removeBeats, updateBeat } = beatsSlice.actions;
 
 export const selectBeat = (beatId) => (state) => state.beats[beatId];
+
+export const changeBeatDivisionThunk = (beatId, newDivision) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const beat = state.beats[beatId];
+    const notesToRemove = [];
+    const notesToAdd = [];
+    const hitsToRemove = [];
+    const hitsToAdd = [];
+    const newBeat = { ...cloneDeep(beat), division: newDivision };
+
+    if (beat.division > newDivision) {
+      notesToRemove.push(...newBeat.notes.splice(newDivision));
+      notesToRemove.forEach((noteId) => {
+        Object.entries(state.notes[noteId].drums).forEach(([, hitId]) => {
+          hitsToRemove.push(hitId);
+        });
+      });
+    } else if (beat.division < newDivision) {
+      times(newDivision - beat.division, () => {
+        const note = {
+          id: uniqueId('_note-'),
+          drums: {},
+        };
+
+        state.drumKit.drums.forEach((drum) => {
+          const hit = {
+            id: uniqueId('_hit-'),
+            hit: false,
+            hitType: HitType.NORMAL,
+          };
+
+          hitsToAdd.push(hit);
+          note.drums[drum] = hit.id;
+        });
+
+        notesToAdd.push(note);
+        newBeat.notes.push(note.id);
+      });
+    }
+
+    dispatch(removeNotes(notesToRemove));
+    dispatch(removeHits(hitsToRemove));
+    dispatch(addHits(hitsToAdd));
+    dispatch(addNotes(notesToAdd));
+    dispatch(updateBeat(newBeat));
+  };
+};

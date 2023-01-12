@@ -10,9 +10,9 @@ export enum Drum {
   CRASH1 = 'CRASH1',
   CRASH2 = 'CRASH2',
   RIDE = 'RIDE',
-  SPLASH = 'SPLASH',
-  CHINA = 'CHINA',
-  COWBELL = 'COWBELL',
+  // SPLASH = 'SPLASH',
+  // CHINA = 'CHINA',
+  // COWBELL = 'COWBELL',
 }
 
 export enum HitType {
@@ -20,6 +20,7 @@ export enum HitType {
   ACCENT = 'ACCENT',
   GHOST = 'GHOST',
   OPEN = 'OPEN',
+  BELL = 'BELL',
 }
 
 export type DrumKit = {

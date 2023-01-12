@@ -1,15 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { ID } from '../../../lib/types';
 import { Beat } from '../Beat/Beat';
-import { removeMeasure, selectMeasure } from '../../../store/measures';
+import { removeMeasureThunk, selectMeasure } from '../../../store/measures';
 import styles from './Measure.module.scss';
 import classNames from 'classnames';
 import { RiCloseCircleLine } from 'react-icons/ri';
-import { removeBeats } from '../../../store/beats';
-import { retrieveMeasure, RootState } from '../../../store';
-import { removeNotes } from '../../../store/notes';
-import { removeHits } from '../../../store/hits';
+import { useAppDispatch, useAppSelector } from '../../../store';
 
 type Props = {
   id: ID;
@@ -17,11 +13,8 @@ type Props = {
 };
 
 export const Measure = ({ id, active = false }: Props) => {
-  const dispatch = useDispatch();
-  const { beats } = useSelector(selectMeasure(id));
-  const measure = useSelector((state: RootState) =>
-    retrieveMeasure(state.hits, state.notes, state.beats, state.measures, id)
-  );
+  const dispatch = useAppDispatch();
+  const { beats } = useAppSelector(selectMeasure(id));
   const ref = useRef();
 
   useEffect(() => {
@@ -31,20 +24,7 @@ export const Measure = ({ id, active = false }: Props) => {
   });
 
   const onDelete = () => {
-    const notesToRemove = [];
-    const hitsToRemove = [];
-
-    measure.beats.forEach(({ notes }) => {
-      notesToRemove.push(...notes.map(({ id }) => id));
-      notes.forEach(({ drums }) => {
-        hitsToRemove.push(...Object.values(drums).map(({ id }) => id));
-      });
-    });
-
-    dispatch(removeMeasure(measure.id));
-    dispatch(removeBeats(beats));
-    dispatch(removeNotes(notesToRemove));
-    dispatch(removeHits(hitsToRemove));
+    dispatch(removeMeasureThunk(id));
   };
 
   return (

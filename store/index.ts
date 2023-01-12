@@ -1,20 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { generalSlice, State as GeneralState } from './general';
-import { measuresSlice, State as MeasureState } from './measures';
-import { hitsSlice, State as HitState } from './hits';
-import { beatsSlice, State as BeatState } from './beats';
-import { drumKitSlice, State as DrumKitState } from './drumKit';
-import { Note, notesSlice, State as NotesState } from './notes';
+import { generalSlice } from './general';
+import { measuresSlice } from './measures';
+import { hitsSlice } from './hits';
+import { beatsSlice } from './beats';
+import { drumKitSlice } from './drumKit';
+import { Note, notesSlice } from './notes';
 import { ID } from '../lib/types';
-
-export type RootState = {
-  general: GeneralState;
-  measures: MeasureState;
-  beats: BeatState;
-  notes: NotesState;
-  hits: HitState;
-  drumKit: DrumKitState;
-};
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 export const store = configureStore({
   reducer: {
@@ -27,7 +19,13 @@ export const store = configureStore({
   },
 });
 
-const fillHits = (hitsMap: HitState, note: Note) => ({
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+const fillHits = (hitsMap: RootState['hits'], note: Note) => ({
   ...note,
   drums: Object.entries(note.drums).reduce(
     (all, [drum, hitId]) => ({

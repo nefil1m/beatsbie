@@ -1,19 +1,19 @@
 import React from 'react';
 import { Hit } from '../Hit/Hit';
-import { useSelector } from 'react-redux';
 import styles from './Note.module.scss';
 import classNames from 'classnames';
 import { Note as TNote, selectNote } from '../../../store/notes';
 import { ID } from '../../../lib/types';
 import { selectActiveNoteId } from '../../../store/general';
+import { useAppSelector } from '../../../store';
 
 type Props = {
   id: ID;
 };
 
 export const Note = ({ id }: Props) => {
-  const note: TNote = useSelector(selectNote(id));
-  const activeNoteId = useSelector(selectActiveNoteId);
+  const note: TNote = useAppSelector(selectNote(id));
+  const activeNoteId = useAppSelector(selectActiveNoteId);
 
   return (
     <div
