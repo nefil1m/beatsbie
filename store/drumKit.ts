@@ -57,8 +57,8 @@ export const addDrumThunk = (drum) => {
     });
 
     dispatch(addDrum(drum));
-    dispatch(addHits(newHits));
     dispatch(updateNotes(newNotes));
+    dispatch(addHits(newHits));
   };
 };
 
