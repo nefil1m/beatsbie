@@ -29,6 +29,7 @@ export const drumKitSlice = createSlice({
 export const { addDrum, removeDrum } = drumKitSlice.actions;
 
 export const selectDrums = (state) => state.drumKit.drums;
+export const selectDrumKit = (state) => state.drumKit.drumKit;
 
 export const addDrumThunk = (drum) => {
   return (dispatch, getState) => {

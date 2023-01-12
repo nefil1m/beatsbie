@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { Player } from '../components/Player/Player';
 import { DrumTrack } from '../components/DrumTrack/DrumTrack';
+import { SoundPreloader } from '../components/SoundPreloader/SoundPreloader';
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <main>
         <Player />
         <DrumTrack />
+        <SoundPreloader />
       </main>
     </>
   );
