@@ -1,6 +1,5 @@
 export enum Drum {
   HI_HAT = 'HI_HAT',
-  HI_HAT_FOOT = 'HI_HAT_FOOT',
   SNARE = 'SNARE',
   TOM1 = 'TOM1',
   TOM2 = 'TOM2',
@@ -10,6 +9,7 @@ export enum Drum {
   CRASH1 = 'CRASH1',
   CRASH2 = 'CRASH2',
   RIDE = 'RIDE',
+  // HI_HAT_FOOT = 'HI_HAT_FOOT',
   // SPLASH = 'SPLASH',
   // CHINA = 'CHINA',
   // COWBELL = 'COWBELL',

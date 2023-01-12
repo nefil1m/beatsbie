@@ -3,7 +3,7 @@ import { Hit } from '../Hit/Hit';
 import styles from './Note.module.scss';
 import classNames from 'classnames';
 import { Note as TNote, selectNote } from '../../../store/notes';
-import { ID } from '../../../lib/types';
+import { Drum, ID } from '../../../lib/types';
 import { selectActiveNoteId } from '../../../store/general';
 import { useAppSelector } from '../../../store';
 
@@ -21,8 +21,8 @@ export const Note = ({ id }: Props) => {
         [styles.noteActive]: activeNoteId === id,
       })}
     >
-      {Object.values(note.drums).map((hitId) => (
-        <Hit id={hitId} key={hitId} />
+      {Object.entries(note.drums).map(([drum, hitId]: [Drum, ID]) => (
+        <Hit id={hitId} key={hitId} drum={drum} />
       ))}
     </div>
   );

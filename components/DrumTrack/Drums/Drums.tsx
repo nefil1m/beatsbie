@@ -1,5 +1,5 @@
-import { addDrumThunk, removeDrumThunk, selectDrums } from '../../../store/drumKit';
-import { Drum } from '../../../lib/types';
+import { addDrumThunk, removeDrumThunk, selectDrumKit, selectDrums } from '../../../store/drumKit';
+import { Drum, HitType } from '../../../lib/types';
 import styles from './Drums.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { RiCloseCircleLine } from 'react-icons/ri';
@@ -7,7 +7,6 @@ import React from 'react';
 
 const drumLabels = {
   [Drum.HI_HAT]: 'Hi-hat',
-  [Drum.HI_HAT_FOOT]: 'Hi-hat kick',
   [Drum.SNARE]: 'Snare',
   [Drum.TOM1]: 'Tom 1',
   [Drum.TOM2]: 'Tom 2',
@@ -21,9 +20,11 @@ const drumLabels = {
 
 export const Drums = () => {
   const drums = useAppSelector(selectDrums);
+  const drumKit = useAppSelector(selectDrumKit);
   const dispatch = useAppDispatch();
 
   const onDrumSelect = ({ target: { value } }) => {
+    new Audio(drumKit[value][HitType.NORMAL]).play();
     dispatch(addDrumThunk(value));
   };
 
