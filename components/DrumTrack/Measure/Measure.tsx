@@ -12,9 +12,6 @@ import classNames from 'classnames';
 import { RiCloseCircleLine } from 'react-icons/ri';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { Select } from '../../Select/Select';
-import { Josefin_Sans } from '@next/font/google';
-
-const font2 = Josefin_Sans({ weight: '700' });
 
 type Props = {
   id: ID;
@@ -51,13 +48,13 @@ export const Measure = ({ id, active = false }: Props) => {
           items={[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
           value={metre[0]}
           onChange={onMetrePulseChange}
-          className={classNames(styles.metreSelect, font2.className)}
+          className={classNames(styles.metreSelect)}
         />
         <Select
           items={[4, 8, 16]}
           value={metre[1]}
           onChange={onMetreBaseChange}
-          className={classNames(styles.metreSelect, font2.className)}
+          className={classNames(styles.metreSelect)}
         />
       </div>
       <div className={styles.measureBeats} ref={ref}>

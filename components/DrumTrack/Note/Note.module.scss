@@ -10,12 +10,16 @@
   &:after {
     content: '';
     position: absolute;
-    z-index: -1;
-    width: 130%;
-    height: 130%;
-    top: -15%;
-    left: -15%;
-    border-radius: 20px;
-    background: #00d0ff;
+
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    top: -4px;
+    left: -4px;
+    border-radius: 4px;
+
+    //z-index: -1;
+    //background: #00d0ff;
+    z-index: 0;
+    background: #00d0ff99;
   }
 }

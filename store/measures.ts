@@ -167,19 +167,6 @@ export const changeMetreBaseThunk = (measureId, base) => {
     const newMeasure = cloneDeep(oldMeasure);
     newMeasure.metre[1] = base;
 
-    if (oldMeasure.metre[1] > base) {
-      // add every nth note
-      const notesToAdd = [];
-      const hitsToAdd = [];
-
-      const diff = oldMeasure.metre[1] / base;
-      console.log(diff);
-    } else if (oldMeasure.metre[1] < base) {
-      // remove every nth note
-      const diff = base / oldMeasure.metre[1];
-      console.log(diff);
-    }
-
     dispatch(updateMeasure(newMeasure));
   };
 };

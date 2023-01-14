@@ -5,6 +5,7 @@ import { Beat as TBeat, changeBeatDivisionThunk, selectBeat } from '../../../sto
 import styles from './Beat.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { times } from 'lodash';
+import { Select } from '../../Select/Select';
 
 type Props = {
   id: ID;
@@ -61,8 +62,8 @@ export const Beat = ({ id, metre }: Props) => {
   const dispatch = useAppDispatch();
   const { notes, division } = beat;
 
-  const onDivisionChange = ({ target: { value } }) => {
-    dispatch(changeBeatDivisionThunk(id, Number(value)));
+  const onDivisionChange = (newDivision) => {
+    dispatch(changeBeatDivisionThunk(id, Number(newDivision)));
   };
 
   return (
@@ -72,13 +73,14 @@ export const Beat = ({ id, metre }: Props) => {
           <Note id={noteId} key={noteId} />
         ))}
       </div>
-      <select value={String(division)} onChange={onDivisionChange}>
-        {times(12, (index) => (
-          <option key={index} value={index + 1}>
-            {labelByMetreBaseAndValue[metre[1]][index + 1]}
-          </option>
-        ))}
-      </select>
+      <Select
+        onChange={onDivisionChange}
+        items={times(12, (index) => ({
+          value: index + 1,
+          label: labelByMetreBaseAndValue[metre[1]][index + 1],
+        }))}
+        value={division}
+      />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import styles from './Drums.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { RiCloseCircleLine } from 'react-icons/ri';
 import React from 'react';
+import { Select } from '../../Select/Select';
 
 const drumLabels = {
   [Drum.HI_HAT]: 'Hi-hat',
@@ -23,7 +24,7 @@ export const Drums = () => {
   const drumKit = useAppSelector(selectDrumKit);
   const dispatch = useAppDispatch();
 
-  const onDrumSelect = ({ target: { value } }) => {
+  const onDrumSelect = (value) => {
     new Audio(drumKit[value][HitType.NORMAL]).play();
     dispatch(addDrumThunk(value));
   };
@@ -31,6 +32,8 @@ export const Drums = () => {
   const onDrumDelete = (drum) => {
     dispatch(removeDrumThunk(drum));
   };
+
+  const possibleDrums = Object.keys(Drum).filter((drum) => !drums.includes(drum));
 
   return (
     <div className={styles.drums}>
@@ -44,16 +47,16 @@ export const Drums = () => {
           </p>
         );
       })}
-      <select onChange={onDrumSelect} value="">
-        <option>Add drum...</option>
-        {Object.keys(Drum)
-          .filter((drum) => !drums.includes(drum))
-          .map((drum) => (
-            <option value={drum} key={drum}>
-              {drumLabels[drum]}
-            </option>
-          ))}
-      </select>
+      {possibleDrums.length ? (
+        <Select
+          placeholder="Add drum..."
+          items={possibleDrums.map((drum) => ({
+            value: drum,
+            label: drumLabels[drum],
+          }))}
+          onChange={onDrumSelect}
+        />
+      ) : null}
     </div>
   );
 };

@@ -8,7 +8,7 @@
 .selectDropdown {
   background: #fff;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 12px;
   position: absolute;
   max-height: 200px;
   overflow-x: hidden;
@@ -16,9 +16,17 @@
   font-weight: normal;
   box-shadow: 3px 11px 13px 5px rgb(0 0 0 / 26%);
   z-index: 10;
+  color: #1a1a1a;
+  min-width: 100%;
+  margin-top: 4px;
+  padding: 8px 0;
 }
 
 .selectItem {
   padding: 4px 12px;
   cursor: pointer;
+
+  &:hover {
+    background: rgb(108 209 75);
+  }
 }
