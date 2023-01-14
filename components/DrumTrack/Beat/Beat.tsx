@@ -1,15 +1,62 @@
 import React from 'react';
 import { Note } from '../Note/Note';
-import { ID } from '../../../lib/types';
+import { ID, Metre } from '../../../lib/types';
 import { Beat as TBeat, changeBeatDivisionThunk, selectBeat } from '../../../store/beats';
 import styles from './Beat.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../store';
+import { times } from 'lodash';
 
 type Props = {
   id: ID;
+  metre: Metre;
 };
 
-export const Beat = ({ id }: Props) => {
+const labelByMetreBaseAndValue = {
+  4: {
+    1: 'Quarter notes',
+    2: '8th notes',
+    3: '8th note triplets',
+    4: '16th notes',
+    5: '5',
+    6: '16th note triplets',
+    7: '7',
+    8: '32nd notes',
+    9: '9',
+    10: '10',
+    11: '11',
+    12: '12',
+  },
+  8: {
+    1: '8th notes',
+    2: '16th notes',
+    3: '16th note triplets',
+    4: '32nd notes',
+    5: '5',
+    6: '32nd note triplets',
+    7: '7',
+    8: '64th notes',
+    9: '9',
+    10: '10',
+    11: '11',
+    12: '12',
+  },
+  16: {
+    1: '16th notes',
+    2: '32nd notes',
+    3: '32nd note triplets',
+    4: '64th notes',
+    5: '5',
+    6: '64th note triplets',
+    7: '7',
+    8: '128th notes',
+    9: '9',
+    10: '10',
+    11: '11',
+    12: '12',
+  },
+};
+
+export const Beat = ({ id, metre }: Props) => {
   const beat: TBeat = useAppSelector(selectBeat(id));
   const dispatch = useAppDispatch();
   const { notes, division } = beat;
@@ -26,18 +73,11 @@ export const Beat = ({ id }: Props) => {
         ))}
       </div>
       <select value={String(division)} onChange={onDivisionChange}>
-        <option value="1">Quarter notes</option>
-        <option value="2">8th notes</option>
-        <option value="3">Triplets</option>
-        <option value="4">16th notes</option>
-        <option value="5">Quintuplet</option>
-        <option value="6">Sextuplets</option>
-        <option value="7">7</option>
-        <option value="8">32th notes</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
+        {times(12, (index) => (
+          <option key={index} value={index + 1}>
+            {labelByMetreBaseAndValue[metre[1]][index + 1]}
+          </option>
+        ))}
       </select>
     </div>
   );

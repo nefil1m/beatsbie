@@ -3,7 +3,7 @@ import { ID } from '../lib/types';
 
 export type State = {
   tempo: number;
-  measureIndex: number;
+  measureId: number;
   noteId: ID;
 };
 
@@ -11,7 +11,7 @@ export const generalSlice = createSlice({
   name: 'general',
   initialState: {
     tempo: 120,
-    measureIndex: null,
+    measureId: null,
     noteId: null,
   },
   reducers: {
@@ -21,14 +21,14 @@ export const generalSlice = createSlice({
     setNoteId(state, { payload }) {
       state.noteId = payload;
     },
-    setMeasureIndex(state, { payload }) {
-      state.measureIndex = payload;
+    setMeasureId(state, { payload }) {
+      state.measureId = payload;
     },
   },
 });
 
-export const { setNoteId, setMeasureIndex, setTempo } = generalSlice.actions;
+export const { setNoteId, setMeasureId, setTempo } = generalSlice.actions;
 
 export const selectTempo = (state) => state.general.tempo;
-export const selectActiveMeasureIndex = (state) => state.general.measureIndex;
+export const selectActiveMeasureId = (state) => state.general.measureId;
 export const selectActiveNoteId = (state) => state.general.noteId;

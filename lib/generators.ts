@@ -53,7 +53,7 @@ const generateDefaultMeasure = (currentDrums = [Drum.HI_HAT, Drum.SNARE, Drum.KI
 };
 
 export const cloneMeasure = (measureId, state) => {
-  const measure = state.measures[measureId];
+  const measure = state.measures.map[measureId];
 
   if (!measure) {
     return generateDefaultMeasure();

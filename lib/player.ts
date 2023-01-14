@@ -1,7 +1,7 @@
 import { noop } from 'lodash';
 import { store } from '../store';
 import { Drum, DrumKit, HitType, ID } from './types';
-import { setMeasureIndex, setNoteId } from '../store/general';
+import { setMeasureId, setNoteId } from '../store/general';
 
 const A_MINUTE = 1000 * 60;
 
@@ -47,8 +47,8 @@ class Player {
     return Promise.resolve();
   }
 
-  async playBeat(beatId: ID) {
-    const beatLength = A_MINUTE / this.tempo;
+  async playBeat(beatId: ID, metreBase) {
+    const beatLength = A_MINUTE / this.tempo / (metreBase / 4);
     const state = store.getState();
     const beat = state.beats[beatId];
 
@@ -59,10 +59,10 @@ class Player {
 
   async playMeasure(measureId: ID) {
     const state = store.getState();
-    const measure = state.measures[measureId];
+    const measure = state.measures.map[measureId];
 
     for (const beat of measure.beats) {
-      await this.playBeat(beat);
+      await this.playBeat(beat, measure.metre[1]);
     }
   }
 
@@ -70,11 +70,11 @@ class Player {
     const state = store.getState();
 
     if (this.playing) {
-      const measures = Object.values(state.measures);
+      const measures = state.measures.order;
 
-      for (const measure of measures) {
-        this.setActiveMeasureIndex(measures.indexOf(measure));
-        await this.playMeasure(measure.id);
+      for (const measureId of measures) {
+        this.setActiveMeasureId(measureId);
+        await this.playMeasure(measureId);
       }
 
       return this.play();
@@ -99,8 +99,8 @@ class Player {
     store.dispatch(setNoteId(id));
   }
 
-  setActiveMeasureIndex(index) {
-    store.dispatch(setMeasureIndex(index));
+  setActiveMeasureId(id) {
+    store.dispatch(setMeasureId(id));
   }
 
   setOnStop(cb) {
@@ -114,7 +114,7 @@ class Player {
 
   stop() {
     this.playing = false;
-    store.dispatch(setMeasureIndex(null));
+    store.dispatch(setMeasureId(null));
     this.onStop();
   }
 
