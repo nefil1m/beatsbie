@@ -11,6 +11,10 @@ import styles from './Measure.module.scss';
 import classNames from 'classnames';
 import { RiCloseCircleLine } from 'react-icons/ri';
 import { useAppDispatch, useAppSelector } from '../../../store';
+import { Select } from '../../Select/Select';
+import { Josefin_Sans } from '@next/font/google';
+
+const font2 = Josefin_Sans({ weight: '700' });
 
 type Props = {
   id: ID;
@@ -32,41 +36,31 @@ export const Measure = ({ id, active = false }: Props) => {
     dispatch(removeMeasureThunk(id));
   };
 
-  const onMetrePulseChange = ({ target: { value: measure } }) => {
-    dispatch(changeMetrePulseThunk(id, Number(measure)));
+  const onMetrePulseChange = (pulse) => {
+    dispatch(changeMetrePulseThunk(id, Number(pulse)));
   };
 
-  const onMetreBaseChange = ({ target: { value: base } }) => {
+  const onMetreBaseChange = (base) => {
     dispatch(changeMetreBaseThunk(id, Number(base)));
   };
 
   return (
-    <div>
-      <div>
-        <select value={metre[0]} onChange={onMetrePulseChange}>
-          <option value={2}>2</option>
-          <option value={3}>3</option>
-          <option value={4}>4</option>
-          <option value={5}>5</option>
-          <option value={6}>6</option>
-          <option value={7}>7</option>
-          <option value={8}>8</option>
-          <option value={9}>9</option>
-          <option value={10}>10</option>
-          <option value={11}>11</option>
-          <option value={12}>12</option>
-          <option value={13}>13</option>
-          <option value={14}>14</option>
-          <option value={15}>15</option>
-        </select>
-        /
-        <select value={metre[1]} onChange={onMetreBaseChange}>
-          <option value={4}>4</option>
-          <option value={8}>8</option>
-          <option value={16}>16</option>
-        </select>
+    <div className={classNames(styles.measure, { [styles.measureActive]: active })}>
+      <div className={styles.metre}>
+        <Select
+          items={[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+          value={metre[0]}
+          onChange={onMetrePulseChange}
+          className={classNames(styles.metreSelect, font2.className)}
+        />
+        <Select
+          items={[4, 8, 16]}
+          value={metre[1]}
+          onChange={onMetreBaseChange}
+          className={classNames(styles.metreSelect, font2.className)}
+        />
       </div>
-      <div className={classNames(styles.measure, { [styles.measureActive]: active })} ref={ref}>
+      <div className={styles.measureBeats} ref={ref}>
         {beats.map((beatId) => (
           <Beat id={beatId} key={beatId} metre={metre} />
         ))}

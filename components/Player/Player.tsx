@@ -29,7 +29,7 @@ export const Player = () => {
         <Button
           onClick={() => {
             player.togglePlaying();
-            setIsPlaying(true);
+            setIsPlaying(!isPlaying);
           }}
           shape={ButtonShape.CIRCLE}
           className={styles.playBtn}

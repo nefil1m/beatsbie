@@ -19,6 +19,7 @@ class Player {
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
     this.togglePlaying = this.togglePlaying.bind(this);
+    this.setOnStop = this.setOnStop.bind(this);
   }
 
   async playNote(noteId: ID, duration: number) {
@@ -89,6 +90,10 @@ class Player {
 
   set playing(playing) {
     this._playing = playing;
+
+    if (!playing) {
+      this.onStop();
+    }
   }
 
   get tempo() {
@@ -115,7 +120,6 @@ class Player {
   stop() {
     this.playing = false;
     store.dispatch(setMeasureId(null));
-    this.onStop();
   }
 
   togglePlaying() {

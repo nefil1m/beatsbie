@@ -6,6 +6,11 @@
   border: 2px solid transparent;
   scroll-margin: 50px;
   position: relative;
+  color: #1a1a1a;
+}
+
+.measureBeats {
+  display: flex;
 }
 
 .measureActive {
@@ -33,4 +38,17 @@
       fill: red;
     }
   }
+}
+
+.metre {
+  margin: 8px;
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  width: 24px;
+}
+
+.metreSelect {
+  font-size: 20px;
+  font-weight: 900;
 }
