@@ -2,7 +2,7 @@ import React from 'react';
 import { Hit } from '../Hit/Hit';
 import styles from './Note.module.scss';
 import classNames from 'classnames';
-import { Note as TNote, selectNote } from '../../../store/notes';
+import { NotePointed as TNote, selectNote } from '../../../store/notes';
 import { Drum, ID } from '../../../lib/types';
 import { selectActiveNoteId } from '../../../store/general';
 import { useAppSelector } from '../../../store';

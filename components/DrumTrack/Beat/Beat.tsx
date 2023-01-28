@@ -1,7 +1,7 @@
 import React from 'react';
 import { Note } from '../Note/Note';
 import { ID, Metre } from '../../../lib/types';
-import { Beat as TBeat, changeBeatDivisionThunk, selectBeat } from '../../../store/beats';
+import { BeatPointed as TBeat, changeBeatDivisionThunk, selectBeat } from '../../../store/beats';
 import styles from './Beat.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { times } from 'lodash';

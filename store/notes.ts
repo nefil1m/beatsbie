@@ -1,14 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Collection, Drum, ID, Pointer } from '../lib/types';
+import { Hit } from './hits';
 
-export type Note = {
+export type NotePointed = {
   id: ID;
   drums: {
     [key in Drum]?: Pointer;
   };
 };
 
-export type State = Collection<Note>;
+export type Note = {
+  id: ID;
+  drums: {
+    [key in Drum]?: Hit;
+  };
+};
+
+export type State = Collection<NotePointed>;
 
 export const notesSlice = createSlice({
   name: 'notes',
@@ -166,4 +174,4 @@ export const { addNotes, removeNotes, updateNotes } = notesSlice.actions;
 export const selectNote = (noteId) => (state) => state.notes[noteId];
 export const selectNotes = (noteIds) => (state) => noteIds.map((id) => state.notes[id]);
 export const selectNoteState = (state) => state.notes;
-export const selectAllNotes = (state): Note[] => Object.values(state.notes);
+export const selectAllNotes = (state): NotePointed[] => Object.values(state.notes);

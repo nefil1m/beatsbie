@@ -1,16 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { BeatDivision, Collection, HitType, Pointer } from '../lib/types';
-import { cloneDeep, times, uniqueId } from 'lodash';
-import { addNotes, removeNotes } from './notes';
+import { BeatDivision, Collection, ID, Pointer } from '../lib/types';
+import { cloneDeep, times } from 'lodash';
+import { addNotes, Note, removeNotes } from './notes';
 import { addHits, removeHits } from './hits';
+import { cloneNote } from '../lib/generators';
 
-export type Beat = {
-  id: string;
+export type BeatPointed = {
+  id: ID;
   division: BeatDivision;
   notes: Pointer[];
 };
 
-export type State = Collection<Beat>;
+export type Beat = {
+  id: ID;
+  division: BeatDivision;
+  notes: Note[];
+};
+
+export type State = Collection<BeatPointed>;
 
 export const beatsSlice = createSlice({
   name: 'beats',
@@ -76,22 +83,8 @@ export const changeBeatDivisionThunk = (beatId, newDivision) => {
       });
     } else if (beat.division < newDivision) {
       times(newDivision - beat.division, () => {
-        const note = {
-          id: uniqueId('_note-'),
-          drums: {},
-        };
-
-        state.drumKit.drums.forEach((drum) => {
-          const hit = {
-            id: uniqueId('_hit-'),
-            hit: false,
-            hitType: HitType.NORMAL,
-          };
-
-          hitsToAdd.push(hit);
-          note.drums[drum] = hit.id;
-        });
-
+        const { note, hits } = cloneNote(state, {});
+        hitsToAdd.push(...hits);
         notesToAdd.push(note);
         newBeat.notes.push(note.id);
       });

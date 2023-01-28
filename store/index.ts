@@ -4,7 +4,7 @@ import { measuresSlice } from './measures';
 import { hitsSlice } from './hits';
 import { beatsSlice } from './beats';
 import { drumKitSlice } from './drumKit';
-import { Note, notesSlice } from './notes';
+import { NotePointed, notesSlice } from './notes';
 import { ID } from '../lib/types';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
@@ -25,7 +25,7 @@ export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-const fillHits = (hitsMap: RootState['hits'], note: Note) => ({
+const fillHits = (hitsMap: RootState['hits'], note: NotePointed) => ({
   ...note,
   drums: Object.entries(note.drums).reduce(
     (all, [drum, hitId]) => ({

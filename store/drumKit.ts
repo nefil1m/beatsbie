@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { MetalDrumKit } from '../lib/drumKits';
-import { Drum, DrumKit, HitType } from '../lib/types';
-import { cloneDeep, uniqueId } from 'lodash';
+import { Drum, DrumKit } from '../lib/types';
+import { cloneDeep } from 'lodash';
 import { addHits, removeHits } from './hits';
-import { Note, updateNotes } from './notes';
+import { NotePointed, updateNotes } from './notes';
+import { cloneHit } from '../lib/generators';
 
 export type State = {
   drumKit: DrumKit;
@@ -34,16 +35,12 @@ export const selectDrumKit = (state) => state.drumKit.drumKit;
 export const addDrumThunk = (drum) => {
   return (dispatch, getState) => {
     const state = getState();
-    const allNotes: Note[] = Object.values(state.notes);
+    const allNotes: NotePointed[] = Object.values(state.notes);
     const newHits = [];
     const newNotes = [];
 
     allNotes.forEach((note) => {
-      const hit = {
-        id: uniqueId('_hit-'),
-        hit: false,
-        hitType: HitType.NORMAL,
-      };
+      const hit = cloneHit({});
 
       const newNote = {
         ...note,
@@ -66,7 +63,7 @@ export const addDrumThunk = (drum) => {
 export const removeDrumThunk = (drum) => {
   return (dispatch, getState) => {
     const state = getState();
-    const allNotes: Note[] = Object.values(state.notes);
+    const allNotes: NotePointed[] = Object.values(state.notes);
     const hitsToRemove = [];
     const notesToUpdate = [];
 

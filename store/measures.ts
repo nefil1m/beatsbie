@@ -1,20 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Collection, HitType, ID, Metre, Pointer } from '../lib/types';
-import { addBeats, removeBeats } from './beats';
+import { Collection, ID, Metre, Pointer } from '../lib/types';
+import { addBeats, Beat, removeBeats } from './beats';
 import { addNotes, removeNotes } from './notes';
 import { addHits, removeHits } from './hits';
 import { retrieveMeasure } from './index';
-import { cloneMeasure } from '../lib/generators';
-import { cloneDeep, last, times, uniqueId } from 'lodash';
+import { cloneBeat, cloneMeasure } from '../lib/generators';
+import { cloneDeep, last, times } from 'lodash';
 
-export type Measure = {
+export type MeasurePointed = {
   id: ID;
   metre: Metre;
   beats: Pointer[];
 };
 
+export type Measure = {
+  id: ID;
+  metre: Metre;
+  beats: Beat[];
+};
+
 export type State = {
-  map: Collection<Measure>;
+  map: Collection<MeasurePointed>;
   order: Pointer[];
 };
 
@@ -123,33 +129,11 @@ export const changeMetrePulseThunk = (measureId, metrePulse) => {
       const lastBeat = state.beats[last(oldMeasure.beats) as ID];
 
       times(metrePulse - oldMeasure.metre[0], () => {
-        const beat = {
-          id: uniqueId('_beat-'),
-          division: lastBeat.division,
-          notes: lastBeat.notes.map(() => {
-            const note = {
-              id: uniqueId('_note-'),
-              drums: state.drumKit.drums.reduce((all, drum) => {
-                const hit = {
-                  id: uniqueId('_hit-'),
-                  hit: false,
-                  hitType: HitType.NORMAL,
-                };
-
-                all[drum] = hit.id;
-                hitsToAdd.push(hit);
-
-                return all;
-              }, {}),
-            };
-
-            notesToAdd.push(note);
-            return note.id;
-          }),
-        };
-
+        const { beat, notes, hits } = cloneBeat(state, lastBeat);
         newMeasure.beats.push(beat.id);
         beatsToAdd.push(beat);
+        notesToAdd.push(...notes);
+        hitsToAdd.push(...hits);
       });
 
       dispatch(addHits(hitsToAdd));
