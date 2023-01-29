@@ -4,8 +4,7 @@ import { measuresSlice } from './measures';
 import { hitsSlice } from './hits';
 import { beatsSlice } from './beats';
 import { drumKitSlice } from './drumKit';
-import { NotePointed, notesSlice } from './notes';
-import { ID } from '../lib/types';
+import { notesSlice } from './notes';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 export const store = configureStore({
@@ -24,36 +23,3 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
-const fillHits = (hitsMap: RootState['hits'], note: NotePointed) => ({
-  ...note,
-  drums: Object.entries(note.drums).reduce(
-    (all, [drum, hitId]) => ({
-      ...all,
-      [drum]: hitsMap[hitId],
-    }),
-    {}
-  ),
-});
-
-export const retrieveMeasure = (hits, notes, beats, measures, measureId) => {
-  const measure = measures[measureId];
-
-  return {
-    ...measure,
-    beats: measure.beats.map((beatId: ID) => {
-      const beat = beats[beatId];
-
-      return {
-        ...beat,
-        notes: beat.notes.map((noteId: ID) => fillHits(hits, notes[noteId])),
-      };
-    }),
-  };
-};
-
-export const retrieveTrack = (state) => {
-  return Object.keys(state.measures).map((measureId) =>
-    retrieveMeasure(state.hits, state.notes, state.beats, state.measures, measureId)
-  );
-};

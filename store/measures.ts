@@ -3,7 +3,6 @@ import { Collection, ID, Metre, Pointer } from '../lib/types';
 import { addBeats, Beat, removeBeats } from './beats';
 import { addNotes, removeNotes } from './notes';
 import { addHits, removeHits } from './hits';
-import { retrieveMeasure } from './index';
 import { cloneBeat, cloneMeasure } from '../lib/generators';
 import { cloneDeep, last, times } from 'lodash';
 
@@ -20,14 +19,14 @@ export type Measure = {
 };
 
 export type State = {
-  map: Collection<MeasurePointed>;
+  hashmap: Collection<MeasurePointed>;
   order: Pointer[];
 };
 
 export const measuresSlice = createSlice({
   name: 'measures',
   initialState: {
-    map: {
+    hashmap: {
       'measure-1': {
         id: 'measure-1',
         metre: [4, 4],
@@ -38,15 +37,15 @@ export const measuresSlice = createSlice({
   },
   reducers: {
     addMeasure(state, { payload }) {
-      state.map[payload.id] = payload;
+      state.hashmap[payload.id] = payload;
       state.order.push(payload.id);
     },
     removeMeasure(state, { payload }) {
-      delete state.map[payload];
+      delete state.hashmap[payload];
       state.order = state.order.filter((id) => id !== payload);
     },
     updateMeasure(state, { payload }) {
-      state.map[payload.id] = payload;
+      state.hashmap[payload.id] = payload;
     },
   },
 });
@@ -54,25 +53,20 @@ export const measuresSlice = createSlice({
 export const { addMeasure, removeMeasure, updateMeasure } = measuresSlice.actions;
 
 export const selectMeasurePointers = (state) => state.measures.order;
-export const selectMeasure = (measureId) => (state) => state.measures.map[measureId];
+export const selectMeasure = (measureId) => (state) => state.measures.hashmap[measureId];
 
 export const removeMeasureThunk = (measureId) => {
   return (dispatch, getState) => {
     const state = getState();
-    const measure = retrieveMeasure(
-      state.hits,
-      state.notes,
-      state.beats,
-      state.measures.map,
-      measureId
-    );
+    const measure = state.measures.hashmap[measureId];
     const notesToRemove = [];
     const hitsToRemove = [];
 
-    measure.beats.forEach(({ notes }) => {
-      notesToRemove.push(...notes.map(({ id }) => id));
-      notes.forEach(({ drums }) => {
-        hitsToRemove.push(...Object.values(drums).map(({ id }) => id));
+    measure.beats.forEach((beatId) => {
+      const { notes } = state.beats[beatId];
+      notesToRemove.push(...notes);
+      notes.forEach((noteId) => {
+        hitsToRemove.push(...Object.values(state.notes[noteId].drums));
       });
     });
 
@@ -100,7 +94,7 @@ export const addMeasureThunk = () => {
 export const changeMetrePulseThunk = (measureId, metrePulse) => {
   return (dispatch, getState) => {
     const state = getState();
-    const oldMeasure = state.measures.map[measureId];
+    const oldMeasure = state.measures.hashmap[measureId];
     const newMeasure = cloneDeep(oldMeasure);
     newMeasure.metre = [metrePulse, newMeasure.metre[1]];
 
@@ -147,7 +141,7 @@ export const changeMetrePulseThunk = (measureId, metrePulse) => {
 export const changeMetreBaseThunk = (measureId, base) => {
   return (dispatch, getState) => {
     const state = getState();
-    const oldMeasure = state.measures.map[measureId];
+    const oldMeasure = state.measures.hashmap[measureId];
     const newMeasure = cloneDeep(oldMeasure);
     newMeasure.metre[1] = base;
 

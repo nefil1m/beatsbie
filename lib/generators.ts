@@ -85,7 +85,7 @@ const generateDefaultMeasure = (state: RootState) => {
 };
 
 export const cloneMeasure = (measureId, state) => {
-  const measure = state.measures.map[measureId];
+  const measure = state.measures.hashmap[measureId];
 
   if (!measure) {
     return generateDefaultMeasure(state);

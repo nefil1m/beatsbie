@@ -60,7 +60,7 @@ class Player {
 
   async playMeasure(measureId: ID) {
     const state = store.getState();
-    const measure = state.measures.map[measureId];
+    const measure = state.measures.hashmap[measureId];
 
     for (const beat of measure.beats) {
       await this.playBeat(beat, measure.metre[1]);
