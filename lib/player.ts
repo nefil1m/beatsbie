@@ -1,6 +1,6 @@
 import { noop } from 'lodash';
 import { store } from '../store';
-import { Drum, DrumKit, HitType, ID } from './types';
+import { Drum, DrumKit, HitType, ID, Metre, MetronomeSound } from './types';
 import { setMeasureId, setNoteId } from '../store/general';
 
 const A_MINUTE = 1000 * 60;
@@ -22,13 +22,22 @@ class Player {
     this.setOnStop = this.setOnStop.bind(this);
   }
 
-  async playNote(noteId: ID, duration: number) {
+  async playNote(noteId: ID, duration: number, beatIndex: number, noteIndex: number) {
     const state = store.getState();
     const note = state.notes[noteId];
 
     if (this.playing) {
       return new Promise<void>((resolve) => {
         const toPlay = [];
+
+        if (state.metronome.on && noteIndex === 0) {
+          toPlay.push(
+            new Audio(
+              state.metronome.tune[beatIndex === 0 ? MetronomeSound.ONE : MetronomeSound.BASIC]
+            )
+          );
+        }
+
         Object.entries(note.drums).forEach(([drum, hitId]: [Drum, ID]) => {
           const hit = state.hits[hitId];
           if (hit.hit) {
@@ -48,13 +57,13 @@ class Player {
     return Promise.resolve();
   }
 
-  async playBeat(beatId: ID, metreBase) {
+  async playBeat(beatId: ID, metreBase: Metre[1], beatIndex: number) {
     const beatLength = A_MINUTE / this.tempo / (metreBase / 4);
     const state = store.getState();
     const beat = state.beats[beatId];
 
     for (const note of beat.notes) {
-      await this.playNote(note, beatLength / beat.division);
+      await this.playNote(note, beatLength / beat.division, beatIndex, beat.notes.indexOf(note));
     }
   }
 
@@ -63,7 +72,7 @@ class Player {
     const measure = state.measures.hashmap[measureId];
 
     for (const beat of measure.beats) {
-      await this.playBeat(beat, measure.metre[1]);
+      await this.playBeat(beat, measure.metre[1], measure.beats.indexOf(beat));
     }
   }
 
