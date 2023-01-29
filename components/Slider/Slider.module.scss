@@ -1,0 +1,47 @@
+@import '../../styles/variables';
+
+.slider {
+  width: 25px;
+  height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.track {
+  position: relative;
+  width: 10px;
+  height: 100px;
+}
+
+.trackBg {
+  background: $light-gray;
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  bottom: 0;
+}
+
+.trackActive {
+  width: inherit;
+  height: 50px; // this will be overwritten
+  position: absolute;
+  bottom: 0;
+  background: $accent;
+}
+
+.handle {
+  background: #fff;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  position: absolute;
+  left: 50%;
+  box-shadow: 1px 1px 5px 0 rgba(66, 66, 66, 0.6);
+  cursor: grab;
+  transform: translate(-50%, 50%);
+}
+
+.handleActive {
+  cursor: grabbing;
+}

@@ -1,13 +1,15 @@
+@import '../../../styles/variables';
+
 .measure {
   border-radius: 10px;
-  background: #f2f2f2;
+  background: $light-gray;
   display: inline-flex;
   gap: 8px;
   padding: 8px 24px 8px 8px;
   border: 2px solid transparent;
   scroll-margin: 50px;
   position: relative;
-  color: #1a1a1a;
+  color: $text-color;
 }
 
 .measureBeats {
@@ -17,7 +19,7 @@
 }
 
 .measureActive {
-  border-color: lime;
+  background: lighten($accent, 47);
 }
 
 .deleteBtn {

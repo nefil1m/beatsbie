@@ -39,7 +39,7 @@
 
 .btnDefault {
   --bg-color: #bbb;
-  --font-color: #333;
+  --font-color: $text-color;
 }
 
 .btnError {

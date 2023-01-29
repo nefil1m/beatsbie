@@ -31,11 +31,12 @@ class Player {
         const toPlay = [];
 
         if (state.metronome.on && noteIndex === 0) {
-          toPlay.push(
-            new Audio(
-              state.metronome.tune[beatIndex === 0 ? MetronomeSound.ONE : MetronomeSound.BASIC]
-            )
+          const beep = new Audio(
+            state.metronome.tune[beatIndex === 0 ? MetronomeSound.ONE : MetronomeSound.BASIC]
           );
+          beep.volume = state.metronome.volume / 100;
+
+          toPlay.push(beep);
         }
 
         Object.entries(note.drums).forEach(([drum, hitId]: [Drum, ID]) => {
@@ -128,7 +129,6 @@ class Player {
 
   stop() {
     this.playing = false;
-    store.dispatch(setMeasureId(null));
   }
 
   togglePlaying() {

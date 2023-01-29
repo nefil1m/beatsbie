@@ -1,5 +1,7 @@
+@import '../../../styles/variables';
+
 .tempo {
-  color: #333;
+  color: $text-color;
   display: flex;
   align-items: center;
   justify-items: flex-start;
@@ -7,7 +9,7 @@
 
 .tempoInput {
   background: transparent;
-  color: #333;
+  color: $text-color;
   margin: 8px 16px;
   height: 24px;
   width: 50px;

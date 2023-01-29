@@ -1,11 +1,15 @@
+@import '../../../styles/variables';
+
 .metronome {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  height: $bottom-bar-height;
 }
 
 .onOffWrapper {
   display: flex;
+  align-items: center;
 }
 
 .metronomeIcon {
@@ -19,4 +23,34 @@
     width: 10px;
     height: 10px;
   }
+}
+
+.volumeWrapper {
+  position: relative;
+}
+
+.volumeButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  > svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.volumeDropdown {
+  background: #fff;
+  border-radius: 4px;
+  position: absolute;
+  max-height: 200px;
+  box-shadow: 3px 11px 13px 5px rgb(0 0 0 / 26%);
+  z-index: 10;
+  color: $text-color;
+  margin-top: 4px;
+  padding: 8px 0;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -106%);
 }
