@@ -38,3 +38,13 @@ export type Metre = [number, number];
 export type BeatDivision = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 
 export type Collection<T> = Record<ID, T>;
+
+export enum MetronomeSound {
+  BASIC = 'BASIC',
+  ONE = 'ONE',
+}
+
+export type Metronome = {
+  [MetronomeSound.BASIC]: string;
+  [MetronomeSound.ONE]: string;
+};
