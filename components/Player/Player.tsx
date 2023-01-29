@@ -1,30 +1,21 @@
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store';
-import { selectTempo, setTempo } from '../../store/general';
 import { player } from '../../lib/player';
 import styles from './Player.module.scss';
 import { Button, ButtonShape, ButtonSize, ButtonStyle } from '../Button/Button';
-import { RiPlayLine, RiStopLine, RiTimerLine } from 'react-icons/ri';
+import { RiPlayLine, RiStopLine } from 'react-icons/ri';
+import { Tempo } from './Tempo/Tempo';
+import { Metronome } from './Metronome/Metronome';
 
 export const Player = () => {
-  const tempo = useAppSelector(selectTempo);
-  const dispatch = useAppDispatch();
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     player.setOnStop(() => setIsPlaying(false));
   }, [setIsPlaying]);
 
-  const onTempoChange = ({ target: { value } }) => {
-    dispatch(setTempo(Number(value)));
-  };
-
   return (
     <div className={styles.player}>
-      <div className={styles.tempo}>
-        <RiTimerLine />
-        <input onChange={onTempoChange} value={tempo} className={styles.tempoInput} />
-      </div>
+      <Tempo />
       <div className={styles.playBtnWrapper}>
         <Button
           onClick={() => {
@@ -39,7 +30,7 @@ export const Player = () => {
           {isPlaying ? <RiStopLine /> : <RiPlayLine />}
         </Button>
       </div>
-      <span />
+      <Metronome />
     </div>
   );
 };

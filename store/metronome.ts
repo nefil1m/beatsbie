@@ -6,12 +6,15 @@ export const metronomeSlice = createSlice({
   initialState: {
     on: true,
     tune: BasicMetronome,
+    volume: 100,
   },
   reducers: {
-    toggleMetronome(state) {
-      state.on = !state.on;
+    toggleMetronome(state, { payload }) {
+      state.on = payload ?? !state.on;
     },
   },
 });
 
 export const { toggleMetronome } = metronomeSlice.actions;
+
+export const selectMetronomeOn = (state) => state.metronome.on;

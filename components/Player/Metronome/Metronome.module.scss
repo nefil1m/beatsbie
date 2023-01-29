@@ -1,0 +1,22 @@
+.metronome {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.onOffWrapper {
+  display: flex;
+}
+
+.metronomeIcon {
+  display: flex;
+  flex-wrap: wrap;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+
+  > svg {
+    width: 10px;
+    height: 10px;
+  }
+}
