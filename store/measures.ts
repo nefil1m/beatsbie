@@ -3,7 +3,7 @@ import { Collection, ID, Metre, Pointer } from '../lib/types';
 import { addBeats, Beat, removeBeats } from './beats';
 import { addNotes, removeNotes } from './notes';
 import { addHits, removeHits } from './hits';
-import { cloneBeat, cloneMeasure } from '../lib/generators';
+import { cloneBeat, cloneMeasure, generateEmptyMeasure } from '../lib/generators';
 import { cloneDeep, last, times } from 'lodash';
 
 export type MeasurePointed = {
@@ -36,9 +36,15 @@ export const measuresSlice = createSlice({
     order: ['measure-1'],
   },
   reducers: {
-    addMeasure(state, { payload }) {
-      state.hashmap[payload.id] = payload;
-      state.order.push(payload.id);
+    addMeasure(state, { payload: { measure, insertAfter } }) {
+      state.hashmap[measure.id] = measure;
+      const index = state.order.findIndex((id) => id === insertAfter);
+
+      if (index === -1) {
+        state.order.push(measure.id);
+      } else {
+        state.order.splice(index + 1, 0, measure.id);
+      }
     },
     removeMeasure(state, { payload }) {
       delete state.hashmap[payload];
@@ -77,21 +83,38 @@ export const removeMeasureThunk = (measureId) => {
   };
 };
 
-export const addMeasureThunk = () => {
+export const cloneMeasureThunk = (measureId: ID, insertAfter: ID = measureId) => {
   return (dispatch, getState) => {
     const state = getState();
-    const lastMeasureId = last(state.measures.order);
-
-    const { measure, beats, notes, hits } = cloneMeasure(lastMeasureId, state);
+    const { measure, beats, notes, hits } = cloneMeasure(measureId, state);
 
     dispatch(addHits(hits));
     dispatch(addNotes(notes));
     dispatch(addBeats(beats));
-    dispatch(addMeasure(measure));
+    dispatch(addMeasure({ measure, insertAfter }));
   };
 };
 
-export const changeMetrePulseThunk = (measureId, metrePulse) => {
+export const cloneLastMeasureThunk = () => {
+  return (dispatch, getState) => {
+    const state = getState();
+    dispatch(cloneMeasureThunk(last(state.measures.order)));
+  };
+};
+
+export const addEmptyMeasureThunk = (metre: Metre = [4, 4], insertAfter: ID) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { measure, beats, notes, hits } = generateEmptyMeasure(state, metre);
+
+    dispatch(addHits(hits));
+    dispatch(addNotes(notes));
+    dispatch(addBeats(beats));
+    dispatch(addMeasure({ measure, insertAfter }));
+  };
+};
+
+export const changeMetrePulseThunk = (measureId: ID, metrePulse: Metre[0]) => {
   return (dispatch, getState) => {
     const state = getState();
     const oldMeasure = state.measures.hashmap[measureId];
@@ -138,7 +161,7 @@ export const changeMetrePulseThunk = (measureId, metrePulse) => {
   };
 };
 
-export const changeMetreBaseThunk = (measureId, base) => {
+export const changeMetreBaseThunk = (measureId: ID, base: Metre[1]) => {
   return (dispatch, getState) => {
     const state = getState();
     const oldMeasure = state.measures.hashmap[measureId];

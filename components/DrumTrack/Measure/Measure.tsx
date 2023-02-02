@@ -2,14 +2,17 @@ import React, { useEffect, useRef } from 'react';
 import { ID } from '../../../lib/types';
 import { Beat } from '../Beat/Beat';
 import {
+  cloneLastMeasureThunk,
   changeMetreBaseThunk,
   changeMetrePulseThunk,
   removeMeasureThunk,
   selectMeasure,
+  cloneMeasureThunk,
+  addEmptyMeasureThunk,
 } from '../../../store/measures';
 import styles from './Measure.module.scss';
 import classNames from 'classnames';
-import { RiCloseCircleLine } from 'react-icons/ri';
+import { RiDeleteBin5Line, RiFileCopy2Line, RiAddLine } from 'react-icons/ri';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { Select } from '../../Select/Select';
 
@@ -41,6 +44,14 @@ export const Measure = ({ id, active = false }: Props) => {
     dispatch(changeMetreBaseThunk(id, Number(base)));
   };
 
+  const onNewMeasure = () => {
+    dispatch(addEmptyMeasureThunk(metre, id));
+  };
+
+  const onCloneMeasure = () => {
+    dispatch(cloneMeasureThunk(id));
+  };
+
   return (
     <div className={classNames(styles.measure, { [styles.measureActive]: active })}>
       <div className={styles.metre}>
@@ -61,8 +72,31 @@ export const Measure = ({ id, active = false }: Props) => {
         {beats.map((beatId) => (
           <Beat id={beatId} key={beatId} metre={metre} />
         ))}
-        <button type="button" onClick={onDelete} className={styles.deleteBtn}>
-          <RiCloseCircleLine />
+      </div>
+      <div className={styles.controls}>
+        <button
+          type="button"
+          title="Add new empty measure"
+          onClick={onNewMeasure}
+          className={classNames(styles.controlBtn, styles.addBtn)}
+        >
+          <RiAddLine />
+        </button>
+        <button
+          type="button"
+          title="Clone current measure"
+          onClick={onCloneMeasure}
+          className={classNames(styles.controlBtn, styles.cloneBtn)}
+        >
+          <RiFileCopy2Line />
+        </button>
+        <button
+          type="button"
+          title="Delete measure"
+          onClick={onDelete}
+          className={classNames(styles.controlBtn, styles.deleteBtn)}
+        >
+          <RiDeleteBin5Line />
         </button>
       </div>
     </div>

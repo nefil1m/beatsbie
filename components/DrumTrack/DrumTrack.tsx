@@ -1,5 +1,5 @@
 import { Measure } from './Measure/Measure';
-import { addMeasureThunk, selectMeasurePointers } from '../../store/measures';
+import { cloneLastMeasureThunk, selectMeasurePointers } from '../../store/measures';
 import { selectActiveMeasureId } from '../../store/general';
 import styles from './DrumTrack.module.scss';
 import { Button, ButtonShape, ButtonSize } from '../Button/Button';
@@ -13,7 +13,7 @@ export const DrumTrack = () => {
   const dispatch = useAppDispatch();
 
   const onClick = () => {
-    dispatch(addMeasureThunk());
+    dispatch(cloneLastMeasureThunk());
   };
 
   return (

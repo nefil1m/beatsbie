@@ -1,5 +1,5 @@
 import { times } from 'lodash';
-import { HitType } from './types';
+import { HitType, Metre } from './types';
 import { createBeatId, createHitId, createMeasureId, createNoteId } from './ids';
 import { Hit } from '../store/hits';
 import { NotePointed } from '../store/notes';
@@ -59,15 +59,15 @@ export const cloneBeat = (state: RootState, beat: Partial<BeatPointed>) => {
   };
 };
 
-const generateDefaultMeasure = (state: RootState) => {
+export const generateEmptyMeasure = (state: RootState, metre: Metre = [4, 4]) => {
   const newHits = [];
   const newNotes = [];
   const newBeats = [];
 
   const newMeasure = {
     id: createMeasureId(),
-    metre: [4, 4],
-    beats: times(4, () => {
+    metre,
+    beats: times(metre[0], () => {
       const { beat, notes, hits } = cloneBeat(state, {});
       newHits.push(...hits);
       newNotes.push(...notes);
@@ -88,7 +88,7 @@ export const cloneMeasure = (measureId, state) => {
   const measure = state.measures.hashmap[measureId];
 
   if (!measure) {
-    return generateDefaultMeasure(state);
+    return generateEmptyMeasure(state);
   }
 
   const newHits = [];

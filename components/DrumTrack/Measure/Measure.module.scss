@@ -1,6 +1,8 @@
 @import '../../../styles/variables';
 
 .measure {
+  --controls-width: 0;
+
   border-radius: 10px;
   background: $light-gray;
   display: inline-flex;
@@ -10,39 +12,16 @@
   scroll-margin: 50px;
   position: relative;
   color: $text-color;
-}
+  transition: padding $duration-xs ease-out;
 
-.measureBeats {
-  display: flex;
-  margin: 8px 0;
-  gap: 32px;
+  &:hover {
+    --controls-width: 24px;
+    padding-right: 40px;
+  }
 }
 
 .measureActive {
   background: lighten($accent, 47);
-}
-
-.deleteBtn {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: 0;
-  background: transparent;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  z-index: 2;
-
-  > svg {
-    fill: #777;
-    display: inline-block;
-  }
-
-  &:hover {
-    > svg {
-      fill: red;
-    }
-  }
 }
 
 .metre {
@@ -57,4 +36,58 @@
   font-size: 20px;
   font-weight: 900;
   font-family: 'Work Sans', sans-serif;
+}
+
+.measureBeats {
+  display: flex;
+  margin: 8px 0;
+  gap: 32px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: var(--controls-width);
+  overflow: hidden;
+}
+
+.controlBtn {
+  border: 0;
+  background: transparent;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: $mid-gray;
+
+  > svg {
+    fill: currentColor;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    transition: fill $duration-xs ease-out;
+  }
+}
+
+.addBtn {
+  &:hover {
+    color: $success;
+  }
+}
+
+.cloneBtn {
+  &:hover {
+    color: $success;
+  }
+}
+
+.deleteBtn {
+  &:hover {
+    color: $danger;
+  }
 }
