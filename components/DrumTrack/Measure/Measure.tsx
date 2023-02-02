@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { ID } from '../../../lib/types';
+import { ID, MetreBase, MetrePulse } from '../../../lib/types';
 import { Beat } from '../Beat/Beat';
 import {
   cloneLastMeasureThunk,
@@ -36,12 +36,12 @@ export const Measure = ({ id, active = false }: Props) => {
     dispatch(removeMeasureThunk(id));
   };
 
-  const onMetrePulseChange = (pulse) => {
-    dispatch(changeMetrePulseThunk(id, Number(pulse)));
+  const onMetrePulseChange = (pulse: MetrePulse) => {
+    dispatch(changeMetrePulseThunk(id, pulse));
   };
 
-  const onMetreBaseChange = (base) => {
-    dispatch(changeMetreBaseThunk(id, Number(base)));
+  const onMetreBaseChange = (base: MetreBase) => {
+    dispatch(changeMetreBaseThunk(id, base));
   };
 
   const onNewMeasure = () => {
@@ -55,13 +55,13 @@ export const Measure = ({ id, active = false }: Props) => {
   return (
     <div className={classNames(styles.measure, { [styles.measureActive]: active })}>
       <div className={styles.metre}>
-        <Select
+        <Select<MetrePulse>
           items={[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
           value={metre[0]}
           onChange={onMetrePulseChange}
           className={classNames(styles.metreSelect)}
         />
-        <Select
+        <Select<MetreBase>
           items={[4, 8, 16]}
           value={metre[1]}
           onChange={onMetreBaseChange}

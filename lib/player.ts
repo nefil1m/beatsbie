@@ -1,6 +1,6 @@
 import { noop } from 'lodash';
 import { store } from '../store';
-import { Drum, DrumKit, HitType, ID, Metre, MetronomeSound } from './types';
+import { Drum, DrumKit, HitType, hitTypesByDrum, ID, Metre, MetronomeSound } from './types';
 import { setMeasureId, setNoteId } from '../store/general';
 
 const A_MINUTE = 1000 * 60;
@@ -41,8 +41,19 @@ class Player {
 
         Object.entries(note.drums).forEach(([drum, hitId]: [Drum, ID]) => {
           const hit = state.hits[hitId];
+
           if (hit.hit) {
-            toPlay.push(new Audio(getHitSound(state.drumKit.drumKit, drum, hit.hitType)));
+            const sound = new Audio(state.drumKit.drumKit[drum][hit.hitType]);
+
+            if (hit.hitType === HitType.GHOST) {
+              sound.volume = 0.17;
+            } else if (hit.hitType === HitType.ACCENT) {
+              sound.volume = 1;
+            } else {
+              sound.volume = 0.7;
+            }
+
+            toPlay.push(sound);
           }
         });
 

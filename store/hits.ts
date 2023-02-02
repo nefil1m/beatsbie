@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Collection, HitType, ID } from '../lib/types';
+import { Collection, Drum, HitType, ID } from '../lib/types';
+import { getNextHitType } from '../lib/utils';
 
 export type Hit = {
   id: ID;
@@ -15,7 +16,7 @@ export const hitsSlice = createSlice({
     'hit-1': {
       id: 'hit-1',
       hit: true,
-      hitType: HitType.ACCENT,
+      hitType: HitType.NORMAL,
     },
     'hit-2': {
       id: 'hit-2',
@@ -45,7 +46,7 @@ export const hitsSlice = createSlice({
     'hit-7': {
       id: 'hit-7',
       hit: true,
-      hitType: HitType.ACCENT,
+      hitType: HitType.NORMAL,
     },
     'hit-8': {
       id: 'hit-8',
@@ -65,7 +66,7 @@ export const hitsSlice = createSlice({
     'hit-11': {
       id: 'hit-11',
       hit: true,
-      hitType: HitType.ACCENT,
+      hitType: HitType.NORMAL,
     },
     'hit-12': {
       id: 'hit-12',
@@ -75,12 +76,12 @@ export const hitsSlice = createSlice({
     'hit-13': {
       id: 'hit-13',
       hit: false,
-      hitType: HitType.GHOST,
+      hitType: HitType.NORMAL,
     },
     'hit-14': {
       id: 'hit-14',
       hit: false,
-      hitType: HitType.GHOST,
+      hitType: HitType.NORMAL,
     },
     'hit-15': {
       id: 'hit-15',
@@ -95,7 +96,7 @@ export const hitsSlice = createSlice({
     'hit-17': {
       id: 'hit-17',
       hit: false,
-      hitType: HitType.ACCENT,
+      hitType: HitType.NORMAL,
     },
     'hit-18': {
       id: 'hit-18',
@@ -120,12 +121,12 @@ export const hitsSlice = createSlice({
     'hit-22': {
       id: 'hit-22',
       hit: false,
-      hitType: HitType.ACCENT,
+      hitType: HitType.NORMAL,
     },
     'hit-23': {
       id: 'hit-23',
       hit: false,
-      hitType: HitType.ACCENT,
+      hitType: HitType.NORMAL,
     },
     'hit-24': {
       id: 'hit-24',
@@ -256,6 +257,9 @@ export const hitsSlice = createSlice({
   reducers: {
     toggleHit(state, { payload }) {
       state[payload].hit = !state[payload].hit;
+      if (!state[payload].hit) {
+        state[payload].hitType = HitType.NORMAL;
+      }
     },
     addHits(state, { payload }) {
       payload.forEach((hit) => {
@@ -267,10 +271,25 @@ export const hitsSlice = createSlice({
         delete state[id];
       });
     },
+    changeHitType(state, { payload: { id, drum } }) {
+      const hit = state[id];
+      if (hit.hit) {
+        const nextHitType = getNextHitType(drum, hit.hitType);
+        if (nextHitType) {
+          state[id].hitType = nextHitType;
+        } else {
+          state[id].hit = false;
+          state[id].hitType = drum === Drum.SNARE ? HitType.ACCENT : HitType.NORMAL;
+        }
+      } else {
+        state[id].hit = true;
+        state[id].hitType = drum === Drum.SNARE ? HitType.ACCENT : HitType.NORMAL;
+      }
+    },
   },
 });
 
-export const { toggleHit, addHits, removeHits } = hitsSlice.actions;
+export const { toggleHit, addHits, removeHits, changeHitType } = hitsSlice.actions;
 
 export const selectHit = (hitId) => (state) => state.hits[hitId];
 
