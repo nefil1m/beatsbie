@@ -1,13 +1,9 @@
 import { noop } from 'lodash';
 import { store } from '../store';
-import { Drum, DrumKit, HitType, hitTypesByDrum, ID, Metre, MetronomeSound } from './types';
+import { Drum, HitType, ID, Metre, MetronomeSound } from './types';
 import { setMeasureId, setNoteId } from '../store/general';
 
 const A_MINUTE = 1000 * 60;
-
-const getHitSound = (drumKit: DrumKit, drum: Drum, hitType: HitType) => {
-  return drumKit[drum][hitType] || drumKit[drum][HitType.NORMAL];
-};
 
 /* Yeah, yeah I know it's against the rules to use store directly but in this case the time is crucial
  * and connecting Player to the store directly improves performance *a lot* */
