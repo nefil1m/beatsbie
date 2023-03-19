@@ -18,7 +18,7 @@ export const useRegisterHotkeyHandler = () => {
       const { ctrlKey, metaKey, altKey, shiftKey } = e;
       const input = [];
 
-      if (isMacLike ? metaKey : ctrlKey) input.push('Ctrl');
+      if (isMacLike(navigator) ? metaKey : ctrlKey) input.push('Ctrl');
       if (shiftKey) input.push('Shift');
       if (altKey) input.push('Alt');
 

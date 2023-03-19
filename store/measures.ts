@@ -5,6 +5,7 @@ import { addNotes, removeNotes } from './notes';
 import { addHits, removeHits } from './hits';
 import { cloneBeat, cloneMeasure, generateEmptyMeasure } from '../lib/generators';
 import { cloneDeep, last, times } from 'lodash';
+import { rememberSignificantActionThunk } from './history';
 
 export type MeasurePointed = {
   id: ID;
@@ -53,16 +54,22 @@ export const measuresSlice = createSlice({
     updateMeasure(state, { payload }) {
       state.hashmap[payload.id] = payload;
     },
+    replaceMeasuresState(state, { payload }) {
+      return payload;
+    },
   },
 });
 
-export const { addMeasure, removeMeasure, updateMeasure } = measuresSlice.actions;
+export const { addMeasure, removeMeasure, updateMeasure, replaceMeasuresState } =
+  measuresSlice.actions;
 
 export const selectMeasurePointers = (state) => state.measures.order;
 export const selectMeasure = (measureId) => (state) => state.measures.hashmap[measureId];
 
 export const removeMeasureThunk = (measureId) => {
   return (dispatch, getState) => {
+    dispatch(rememberSignificantActionThunk());
+
     const state = getState();
     const measure = state.measures.hashmap[measureId];
     const notesToRemove = [];
@@ -85,6 +92,8 @@ export const removeMeasureThunk = (measureId) => {
 
 export const cloneMeasureThunk = (measureId: ID, insertAfter: ID = measureId) => {
   return (dispatch, getState) => {
+    dispatch(rememberSignificantActionThunk());
+
     const state = getState();
     const { measure, beats, notes, hits } = cloneMeasure(measureId, state);
 
@@ -104,6 +113,8 @@ export const cloneLastMeasureThunk = () => {
 
 export const addEmptyMeasureThunk = (metre: Metre = [4, 4], insertAfter: ID) => {
   return (dispatch, getState) => {
+    dispatch(rememberSignificantActionThunk());
+
     const state = getState();
     const { measure, beats, notes, hits } = generateEmptyMeasure(state, metre);
 
@@ -116,6 +127,8 @@ export const addEmptyMeasureThunk = (metre: Metre = [4, 4], insertAfter: ID) => 
 
 export const changeMetrePulseThunk = (measureId: ID, metrePulse: Metre[0]) => {
   return (dispatch, getState) => {
+    dispatch(rememberSignificantActionThunk());
+
     const state = getState();
     const oldMeasure = state.measures.hashmap[measureId];
     const newMeasure = cloneDeep(oldMeasure);
@@ -163,6 +176,8 @@ export const changeMetrePulseThunk = (measureId: ID, metrePulse: Metre[0]) => {
 
 export const changeMetreBaseThunk = (measureId: ID, base: Metre[1]) => {
   return (dispatch, getState) => {
+    dispatch(rememberSignificantActionThunk());
+
     const state = getState();
     const oldMeasure = state.measures.hashmap[measureId];
     const newMeasure = cloneDeep(oldMeasure);

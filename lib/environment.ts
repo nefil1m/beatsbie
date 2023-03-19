@@ -1,1 +1,2 @@
-export const isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
+export const isMacLike = (navigator: Navigator) =>
+  /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);

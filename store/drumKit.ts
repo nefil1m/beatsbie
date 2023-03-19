@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash';
 import { addHits, removeHits } from './hits';
 import { NotePointed, updateNotes } from './notes';
 import { cloneHit } from '../lib/generators';
+import { rememberSignificantActionThunk } from './history';
 
 export type State = {
   drumKit: DrumKit;
@@ -24,16 +25,21 @@ export const drumKitSlice = createSlice({
     removeDrum(state, { payload }) {
       state.drums = state.drums.filter((stateDrum) => stateDrum !== payload);
     },
+    replaceDrumKitState(state, { payload }) {
+      return payload;
+    },
   },
 });
 
-export const { addDrum, removeDrum } = drumKitSlice.actions;
+export const { addDrum, removeDrum, replaceDrumKitState } = drumKitSlice.actions;
 
 export const selectDrums = (state) => state.drumKit.drums;
 export const selectDrumKit = (state) => state.drumKit.drumKit;
 
 export const addDrumThunk = (drum) => {
   return (dispatch, getState) => {
+    dispatch(rememberSignificantActionThunk());
+
     const state = getState();
     const allNotes: NotePointed[] = Object.values(state.notes);
     const newHits = [];
@@ -62,6 +68,8 @@ export const addDrumThunk = (drum) => {
 
 export const removeDrumThunk = (drum) => {
   return (dispatch, getState) => {
+    dispatch(rememberSignificantActionThunk());
+
     const state = getState();
     const allNotes: NotePointed[] = Object.values(state.notes);
     const hitsToRemove = [];

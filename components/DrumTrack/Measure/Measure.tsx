@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { ID, MetreBase, MetrePulse } from '../../../lib/types';
 import { Beat } from '../Beat/Beat';
 import {
-  cloneLastMeasureThunk,
   changeMetreBaseThunk,
   changeMetrePulseThunk,
   removeMeasureThunk,

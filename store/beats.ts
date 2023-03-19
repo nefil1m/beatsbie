@@ -4,6 +4,7 @@ import { cloneDeep, times } from 'lodash';
 import { addNotes, Note, removeNotes } from './notes';
 import { addHits, removeHits } from './hits';
 import { cloneNote } from '../lib/generators';
+import { rememberSignificantActionThunk } from './history';
 
 export type BeatPointed = {
   id: ID;
@@ -57,15 +58,20 @@ export const beatsSlice = createSlice({
     updateBeat(state, { payload }) {
       state[payload.id] = payload;
     },
+    replaceBeatsState(state, { payload }) {
+      return payload;
+    },
   },
 });
 
-export const { addBeats, removeBeats, updateBeat } = beatsSlice.actions;
+export const { addBeats, removeBeats, updateBeat, replaceBeatsState } = beatsSlice.actions;
 
 export const selectBeat = (beatId) => (state) => state.beats[beatId];
 
 export const changeBeatDivisionThunk = (beatId, newDivision) => {
   return (dispatch, getState) => {
+    dispatch(rememberSignificantActionThunk());
+
     const state = getState();
     const beat = state.beats[beatId];
     const notesToRemove = [];

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Hit.module.scss';
 import { Drum, HitType, ID } from '../../../lib/types';
 import classNames from 'classnames';
-import { changeHitType, selectHit, toggleHit } from '../../../store/hits';
+import { changeHitTypeThunk, selectHit, toggleHitThunk } from '../../../store/hits';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectDrumKit } from '../../../store/drumKit';
 import {
@@ -26,14 +26,13 @@ export const Hit = ({ id, drum }: Props) => {
 
   const onClick = (e) => {
     if (e.ctrlKey) {
-      dispatch(changeHitType({ id, drum }));
+      dispatch(changeHitTypeThunk({ id, drum }));
     } else {
       if (!hit) {
         new Audio(drumKit[drum][hitType]).play();
       }
-      dispatch(toggleHit(id));
+      dispatch(toggleHitThunk(id));
     }
-    console.log(e.ctrlKey);
   };
 
   return (

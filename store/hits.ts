@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Collection, Drum, HitType, ID } from '../lib/types';
 import { getNextHitType } from '../lib/utils';
+import { rememberSignificantActionThunk } from './history';
 
 export type Hit = {
   id: ID;
@@ -286,14 +287,27 @@ export const hitsSlice = createSlice({
         state[id].hitType = drum === Drum.SNARE ? HitType.ACCENT : HitType.NORMAL;
       }
     },
+    replaceHitsState(state, { payload }) {
+      return payload;
+    },
   },
 });
 
-export const { toggleHit, addHits, removeHits, changeHitType } = hitsSlice.actions;
+export const { toggleHit, addHits, removeHits, changeHitType, replaceHitsState } =
+  hitsSlice.actions;
 
 export const selectHit = (hitId) => (state) => state.hits[hitId];
 
-export const selectHits = (hitIds) => (state) => {
-  const allHits = state.hits;
-  return hitIds.map((id) => allHits[id]);
+export const changeHitTypeThunk = (payload) => {
+  return (dispatch) => {
+    dispatch(rememberSignificantActionThunk());
+    dispatch(changeHitType(payload));
+  };
+};
+
+export const toggleHitThunk = (payload) => {
+  return (dispatch) => {
+    dispatch(rememberSignificantActionThunk());
+    dispatch(toggleHit(payload));
+  };
 };

@@ -166,12 +166,12 @@ export const notesSlice = createSlice({
         state[note.id] = note;
       });
     },
+    replaceNotesState(state, { payload }) {
+      return payload;
+    },
   },
 });
 
-export const { addNotes, removeNotes, updateNotes } = notesSlice.actions;
+export const { addNotes, removeNotes, updateNotes, replaceNotesState } = notesSlice.actions;
 
 export const selectNote = (noteId) => (state) => state.notes[noteId];
-export const selectNotes = (noteIds) => (state) => noteIds.map((id) => state.notes[id]);
-export const selectNoteState = (state) => state.notes;
-export const selectAllNotes = (state): NotePointed[] => Object.values(state.notes);

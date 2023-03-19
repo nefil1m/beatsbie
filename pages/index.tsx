@@ -3,12 +3,17 @@ import { Player } from '../components/Player/Player';
 import { DrumTrack } from '../components/DrumTrack/DrumTrack';
 import { SoundPreloader } from '../components/SoundPreloader/SoundPreloader';
 import { useHotkey, useRegisterHotkeyHandler } from '../hooks/useHotkey';
+import { useAppDispatch } from '../store';
+import { redoThunk, undoThunk } from '../store/history';
 
 export default function Home() {
+  const dispatch = useAppDispatch();
+
   useRegisterHotkeyHandler();
-  useHotkey(['Ctrl', 'z'], () => console.log('undo'));
-  useHotkey(['Ctrl', 'shIft', 'z'], () => console.log('redo'));
-  useHotkey(['CTRL', 'Y'], () => console.log('REDO'));
+
+  useHotkey(['Ctrl', 'z'], () => dispatch(undoThunk()));
+  useHotkey(['Ctrl', 'shIft', 'z'], () => dispatch(redoThunk()));
+  useHotkey(['CTRL', 'Y'], () => dispatch(redoThunk()));
 
   return (
     <>

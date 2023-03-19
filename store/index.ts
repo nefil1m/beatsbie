@@ -6,6 +6,7 @@ import { beatsSlice } from './beats';
 import { drumKitSlice } from './drumKit';
 import { notesSlice } from './notes';
 import { metronomeSlice } from './metronome';
+import { historySlice } from './history';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
     hits: hitsSlice.reducer,
     drumKit: drumKitSlice.reducer,
     metronome: metronomeSlice.reducer,
+    history: historySlice.reducer,
   },
 });
 
